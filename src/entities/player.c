@@ -15,13 +15,15 @@ Player CreatePlayer() {
     player.isHard = 0;
 
     player.abilityOneType = HARDEN;
-    player.abilityOne.data.cooldown = 0;
     player.abilityOne.data.level = 1;
+    player.abilityOne.data.cooldown = 0;
+    player.abilityOne.data.totalCooldown = 0;
     //player.abilityOne.night.duration = 0;
 
     player.abilityTwoType = DEPART;
-    player.abilityTwo.data.cooldown = 0;
     player.abilityTwo.data.level = 1;
+    player.abilityTwo.data.cooldown = 0;
+    player.abilityTwo.data.totalCooldown = 0;
     player.abilityTwo.depart.duration = 0;
     
     return player;

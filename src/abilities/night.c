@@ -6,6 +6,7 @@ void ActivateNight(Player *player, Night *night) {
     }
 
     night->data.cooldown = 5.5;
+    night->data.totalCooldown = 5.5;
     night->duration = 5;
     night->nightSpeed = 100;
 }

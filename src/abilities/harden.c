@@ -7,6 +7,7 @@ void ActivateHarden(Player *player, Harden *harden) {
     }
 
     harden->data.cooldown = 0.5;
+    harden->data.totalCooldown = 0.5;
     player->isHard = !player->isHard;
 }
 

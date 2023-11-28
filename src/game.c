@@ -88,8 +88,18 @@ void DrawGame(GameState* gameState) {
     // Draw abilities.
     Texture2D abilityOneIcon = GetAbilityIcon(gameState, gameState->player.abilityOneType);
     Texture2D abilityTwoIcon = GetAbilityIcon(gameState, gameState->player.abilityTwoType);
-    DrawTexture(abilityOneIcon, 10, GetScreenHeight() - 60, gameState->player.abilityOne.data.cooldown > 0 ? GRAY : WHITE);
-    DrawTexture(abilityTwoIcon, 70, GetScreenHeight() - 60, gameState->player.abilityTwo.data.cooldown > 0 ? GRAY : WHITE);
+    DrawTexture(abilityOneIcon, 10, GetScreenHeight() - 60, WHITE);
+    DrawTexture(abilityTwoIcon, 70, GetScreenHeight() - 60, WHITE);
+
+    // Draw ability cooldowns.
+    if (gameState->player.abilityOne.data.cooldown > 0) {
+        float heightRatio = gameState->player.abilityOne.data.cooldown / gameState->player.abilityOne.data.totalCooldown;
+        DrawRectangle(10, GetScreenHeight() - 60, 50, heightRatio * 50, (Color) {0, 0, 0, 128});
+    }
+    if (gameState->player.abilityTwo.data.cooldown > 0) {
+        float heightRatio = gameState->player.abilityTwo.data.cooldown / gameState->player.abilityTwo.data.totalCooldown;
+        DrawRectangle(70, GetScreenHeight() - 60, 50, heightRatio * 50, (Color) {0, 0, 0, 128});
+    }
 
     EndDrawing();
 }

@@ -12,6 +12,7 @@ typedef enum AbilityType {
 typedef struct AbilityData {
     int level;
     float cooldown;
+    float totalCooldown;
 } AbilityData;
 
 // This format is a bit weird, but it allows us to have additional ability data and allows for

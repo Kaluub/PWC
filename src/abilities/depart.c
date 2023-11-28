@@ -6,6 +6,7 @@ void ActivateDepart(Player *player, Depart *depart) {
     }
 
     depart->data.cooldown = 8;
+    depart->data.totalCooldown = 8;
     depart->duration = 3;
 }
 
