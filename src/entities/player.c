@@ -160,3 +160,13 @@ int AddColorEffect(Player *player, Color color) {
 
     return 1;
 }
+
+void DrawPlayer(GameState *gameState) {
+    Player player = gameState->player;
+    
+    DrawCircleSector(player.position, player.radius, 0, 360, player.radius * PI * gameState->camera.zoom, player.color);
+    for (int i = 0; i < player.colorEffectCount; i += 1) {
+        DrawCircleV(player.position, player.radius, player.colorEffects[i]);
+    }
+    DrawTextEx(GetFontDefault(), player.name, (Vector2) {player.position.x - MeasureText(player.name, 10)/2, player.position.y - player.radius - 10}, 10, 1, WHITE);
+}

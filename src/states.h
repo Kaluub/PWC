@@ -6,7 +6,7 @@
 #include "map/definitions.h"
 
 typedef struct DebugState {
-    int cursorSelection;
+    int selectedAbilityType;
     // Flags.
     int debugShown : 1;
 } DebugState;

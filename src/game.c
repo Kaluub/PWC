@@ -1,5 +1,6 @@
 #include <time.h>
 #include "game.h"
+#include "abilities/ability.h"
 
 void StartGame() {
     InitWindow(720, 480, "PWC");
@@ -55,7 +56,6 @@ void UpdateGame(GameState* gameState) {
 }
 
 void DrawGame(GameState* gameState) {
-    Player player = gameState->player;
     Map map = gameState->map;
 
     BeginDrawing();
@@ -66,11 +66,7 @@ void DrawGame(GameState* gameState) {
     DrawMap(gameState);
 
     // Draw player.
-    DrawCircleV(player.position, player.radius, player.color);
-    for (int i = 0; i < player.colorEffectCount; i += 1) {
-        DrawCircleV(player.position, player.radius, player.colorEffects[i]);
-    }
-    DrawTextEx(GetFontDefault(), player.name, (Vector2) {player.position.x - MeasureText(player.name, 10)/2, player.position.y - player.radius - 10}, 10, 1, WHITE);
+    DrawPlayer(gameState);
 
     // Draw enemies.
     for (int i = 0; i < map.enemyCount; i += 1) {
@@ -88,6 +84,12 @@ void DrawGame(GameState* gameState) {
 
     // Draw GUI elements.
     DrawDebugInterface(gameState);
+
+    // Draw abilities.
+    Texture2D abilityOneIcon = GetAbilityIcon(gameState, gameState->player.abilityOneType);
+    Texture2D abilityTwoIcon = GetAbilityIcon(gameState, gameState->player.abilityTwoType);
+    DrawTexture(abilityOneIcon, 10, GetScreenHeight() - 60, gameState->player.abilityOne.data.cooldown > 0 ? GRAY : WHITE);
+    DrawTexture(abilityTwoIcon, 70, GetScreenHeight() - 60, gameState->player.abilityTwo.data.cooldown > 0 ? GRAY : WHITE);
 
     EndDrawing();
 }

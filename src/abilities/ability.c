@@ -33,3 +33,17 @@ void UpdateAbility(Player *player, Ability *ability, AbilityType abilityType) {
             return;
     }
 }
+
+Texture2D GetAbilityIcon(GameState *gameState, AbilityType abilityType) {
+    switch (abilityType) {
+        case NIGHT:
+            return gameState->textures.night;
+        case DEPART:
+            return gameState->textures.depart;
+        case HARDEN:
+            return gameState->textures.harden;
+        case NONE:
+        default:
+            return gameState->textures.defaultAbility;
+    }
+}
