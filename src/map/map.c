@@ -28,12 +28,12 @@ Map CreateMap() {
     map.wallCount = 0;
     map.tileCount = 0;
     map.enemyCount = 0;
-    AddWall(&map, (Wall) {{64, 64, 32, 96}, {0, 0, 0, 255}});
+    AddWall(&map, (Wall) {{64, 64, 32, 96}, {0, 0, 0, 128}});
     AddTile(&map, (Tile) {{128, 64, 32, 96}, SLOWING, {0, 0, 50, 50}});
     AddTile(&map, (Tile) {{192, 64, 32, 96}, ACCELERATING, {50, 0, 0, 50}});
     AddTile(&map, (Tile) {{256, 64, 32, 96}, HORIZONTAL_NULLIFICATION, {50, 0, 50, 50}});
     AddTile(&map, (Tile) {{320, 64, 32, 96}, VERTICAL_NULLIFICATION, {50, 0, 50, 50}});
-    AddTile(&map, (Tile) {{384, 64, 32, 96}, REVERSING, {50, 50, 50, 50}});
+    // AddTile(&map, (Tile) {{384, 64, 32, 96}, REVERSING, {50, 50, 50, 50}}); // Janky tile.
 
     
     for (int i = map.wallCount; i < MAX_WALL_COUNT; i += 1) {
@@ -78,12 +78,13 @@ Vector2 GetTileModifier(TileType tileType) {
 
 void DrawMap(GameState *gameState) {
     Map map = gameState->map;
-    int right = map.area.x + map.area.width;
-    int bottom = map.area.y + map.area.height;
+    
+    // Draw tile texture.
+    DrawTextureRec(gameState->textures.tile, map.area, (Vector2) {map.area.x, map.area.y}, map.color);
 
-    for (int x = map.area.x; x < right; x += 32) {
-        for (int y = map.area.y; y < bottom; y += 32) {
-            DrawTexture(gameState->textures.tile, x, y, map.color);
-        }
+    // Draw tile effects.
+    for (int i = 0; i < map.tileCount; i += 1) {
+        Tile tile = map.tiles[i];
+        DrawRectangleRec(tile.area, tile.color);
     }
 }

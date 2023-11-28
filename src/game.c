@@ -10,9 +10,7 @@ void StartGame() {
 
 void RunGame() {
     GameState gameState;
-    TraceLog(LOG_INFO, "pre load texture");
     gameState.textures = LoadTextures();
-    TraceLog(LOG_INFO, "post load texture");
     gameState.player = CreatePlayer();
     gameState.map = CreateMap();
     gameState.camera.target = gameState.player.position;
@@ -72,18 +70,12 @@ void DrawGame(GameState* gameState) {
     for (int i = 0; i < player.colorEffectCount; i += 1) {
         DrawCircleV(player.position, player.radius, player.colorEffects[i]);
     }
-    DrawText(player.name, player.position.x - MeasureText(player.name, 10)/2, player.position.y - player.radius - 10, 10, WHITE);
+    DrawTextEx(GetFontDefault(), player.name, (Vector2) {player.position.x - MeasureText(player.name, 10)/2, player.position.y - player.radius - 10}, 10, 1, WHITE);
 
     // Draw enemies.
     for (int i = 0; i < map.enemyCount; i += 1) {
         Enemy enemy = map.enemies[i];
         DrawCircleV(enemy.position, enemy.radius, enemy.color);
-    }
-    
-    // Draw tiles.
-    for (int i = 0; i < map.tileCount; i += 1) {
-        Tile tile = map.tiles[i];
-        DrawRectangleRec(tile.area, tile.color);
     }
 
     // Draw walls.

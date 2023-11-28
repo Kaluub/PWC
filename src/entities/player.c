@@ -8,7 +8,7 @@ Player CreatePlayer() {
     player.name = "Lime";
     player.color = (Color) {255, 0, 0, 255};
     player.position = (Vector2) {32, 32};
-    player.radius = 15;
+    player.radius = 13;
     player.speed = 150;
     player.ignoreCollisions = 0;
     player.colorEffectCount = 0;
