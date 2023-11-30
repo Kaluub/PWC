@@ -14,6 +14,7 @@ void ActivateMinimize(Player *player, Minimize *minimize) {
     MinimizeProjectile* projectiles = (MinimizeProjectile*) calloc(numberOfProjectiles + minimize->projectileCount, sizeof(MinimizeProjectile));
     if (projectiles == NULL) {
         // Could not create space for new projectiles.
+        TraceLog(LOG_WARNING, "Could not make space for MinimizeProjectiles (ActivateMinimize)");
         return;
     }
     if (minimize->projectiles != NULL) {
@@ -25,8 +26,8 @@ void ActivateMinimize(Player *player, Minimize *minimize) {
     }
     minimize->projectiles = projectiles;
 
-    minimize->data.totalCooldown = 5;
-    minimize->data.cooldown = 5;
+    minimize->data.totalCooldown = 1;
+    minimize->data.cooldown = 1;
 
     float projectileRadius = 10;
     int projectileSpeed = 280;
@@ -81,9 +82,9 @@ void UpdateMinimize(Player *player, Map *map, Minimize *minimize) {
                 }
             }
         }
-    } else if (minimize->projectileCount != 0) {
-        // Should never happen!
-        TraceLog(LOG_ERROR, "Minimize projectile count is not accurate! (UpdateMinimize)");
-        minimize->projectileCount = 0;
+    }
+    if (minimize->projectileCount == 0) {
+        free(minimize->projectiles);
+        minimize->projectiles = NULL;
     }
 }

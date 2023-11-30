@@ -1,4 +1,5 @@
 #include <math.h>
+#include <string.h>
 #include "player.h"
 #include "../abilities/ability.h"
 #include "../map/map.h"
@@ -16,16 +17,12 @@ Player CreatePlayer() {
     player.isHard = 0;
 
     player.abilityOneType = HARDEN;
+    memset(&player.abilityOne, 0, sizeof(Ability));
     player.abilityOne.data.level = 1;
-    player.abilityOne.data.cooldown = 0;
-    player.abilityOne.data.totalCooldown = 0;
-    //player.abilityOne.night.duration = 0;
 
     player.abilityTwoType = DEPART;
+    memset(&player.abilityOne, 0, sizeof(Ability));
     player.abilityTwo.data.level = 1;
-    player.abilityTwo.data.cooldown = 0;
-    player.abilityTwo.data.totalCooldown = 0;
-    player.abilityTwo.depart.duration = 0;
     
     return player;
 }
@@ -60,8 +57,6 @@ void UpdatePlayer(Player* player, Map* map) {
 
     UpdateAbility(player, map, &player->abilityOne, player->abilityOneType);
     UpdateAbility(player, map, &player->abilityTwo, player->abilityTwoType);
-
-    player->abilityOne.data.cooldown = 0;
 
     float currentSpeed = player->speedMultiplier * (player->speed + player->speedBoost);
 
