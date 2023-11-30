@@ -11,6 +11,7 @@ typedef struct Player {
     Vector2 position;
     float radius;
     float speed;
+    float inputAngle;
     int alpha;
     float speedBoost;
     float speedMultiplier;

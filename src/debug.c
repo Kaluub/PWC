@@ -1,5 +1,6 @@
 #include "debug.h"
 #include "raylib.h"
+#include <string.h>
 
 void UpdateDebugInterface(GameState* gameState) {
     DebugState *debugState = &gameState->debugState;
@@ -16,13 +17,15 @@ void UpdateDebugInterface(GameState* gameState) {
         }
         if (IsKeyPressed(KEY_F1)) {
             gameState->player.abilityOneType = (AbilityType) debugState->selectedAbilityType;
+            memset(&gameState->player.abilityOne, 0, sizeof(Ability));
             gameState->player.abilityOne.data.cooldown = 0;
-            gameState->player.abilityOne.data.level = 1;
+            gameState->player.abilityOne.data.level = 5000;
         }
         if (IsKeyPressed(KEY_F2)) {
             gameState->player.abilityTwoType = (AbilityType) debugState->selectedAbilityType;
+            memset(&gameState->player.abilityTwo, 0, sizeof(Ability));
             gameState->player.abilityTwo.data.cooldown = 0;
-            gameState->player.abilityTwo.data.level = 1;
+            gameState->player.abilityTwo.data.level = 5;
         }
     }
 }

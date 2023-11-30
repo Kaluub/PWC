@@ -10,6 +10,7 @@ Player CreatePlayer() {
     player.position = (Vector2) {32, 32};
     player.radius = 13;
     player.speed = 150;
+    player.inputAngle = 0;
     player.ignoreCollisions = 0;
     player.colorEffectCount = 0;
     player.isHard = 0;
@@ -51,14 +52,16 @@ void UpdatePlayer(Player* player, Map* map) {
 
     // Apply abilities.
     if (IsKeyPressed(KEY_Z)) {
-        ActivateAbility(player, &player->abilityOne, player->abilityOneType);
+        ActivateAbility(player, map, &player->abilityOne, player->abilityOneType);
     }
     if (IsKeyPressed(KEY_X)) {
-        ActivateAbility(player, &player->abilityTwo, player->abilityTwoType);
+        ActivateAbility(player, map, &player->abilityTwo, player->abilityTwoType);
     }
 
-    UpdateAbility(player, &player->abilityOne, player->abilityOneType);
-    UpdateAbility(player, &player->abilityTwo, player->abilityTwoType);
+    UpdateAbility(player, map, &player->abilityOne, player->abilityOneType);
+    UpdateAbility(player, map, &player->abilityTwo, player->abilityTwoType);
+
+    player->abilityOne.data.cooldown = 0;
 
     float currentSpeed = player->speedMultiplier * (player->speed + player->speedBoost);
 
@@ -78,6 +81,10 @@ void UpdatePlayer(Player* player, Map* map) {
     if (IsKeyDown(KEY_LEFT_SHIFT)) {
         velocity.x *= 0.5;
         velocity.y *= 0.5;
+    }
+
+    if (velocity.x != 0 || velocity.y != 0) {
+        player->inputAngle = atan2f(velocity.y, velocity.x);
     }
 
     if (!player->ignoreCollisions) {
@@ -165,6 +172,18 @@ int AddColorEffect(Player *player, Color color) {
 
 void DrawPlayer(GameState *gameState) {
     Player player = gameState->player;
+
+    // Draw ability stuff
+    if (player.abilityOneType == MINIMIZE) {
+        for (int i = 0; i < player.abilityOne.minimize.projectileCount; i += 1) {
+            DrawCircleV(player.abilityOne.minimize.projectiles[i].position, player.abilityOne.minimize.projectiles[i].radius, RED);
+        }
+    }
+    if (player.abilityTwoType == MINIMIZE) {
+        for (int i = 0; i < player.abilityTwo.minimize.projectileCount; i += 1) {
+            DrawCircleV(player.abilityTwo.minimize.projectiles[i].position, player.abilityTwo.minimize.projectiles[i].radius, RED);
+        }
+    }
     
     DrawCircleSector(player.position, player.radius, 0, 360, player.radius * PI * gameState->camera.zoom, player.color);
     for (int i = 0; i < player.colorEffectCount; i += 1) {

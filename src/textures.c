@@ -6,6 +6,7 @@ Textures LoadTextures() {
     textures.night = LoadTexture("assets/abilities/night.png");
     textures.depart = LoadTexture("assets/abilities/depart.png");
     textures.harden = LoadTexture("assets/abilities/harden.png");
+    textures.minimize = LoadTexture("assets/abilities/minimize.png");
     textures.defaultAbility = LoadTexture("assets/abilities/default.png");
     return textures;
 }
