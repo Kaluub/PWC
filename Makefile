@@ -11,25 +11,28 @@ SRCS := $(wildcard $(SRC)/*.c) $(wildcard $(SRC)/*/*.c)
 OBJS := $(patsubst $(SRC)/%.c, $(BUILD)/%.o, $(SRCS))
 
 EXEC = PWC
+SHH = @ # @ = silent, empty = verbose
+
+.PHONY: all create_build_dir clean
+.DEFAULT: all
 
 all: $(EXEC)
 
 $(EXEC): $(OBJS)
-	$(CC) $(OBJS) $(CFLAGS) $(LIBLIST) -L $(LIB) -I $(INCLUDE) -o $(EXEC)
+	$(SHH) $(CC) $(OBJS) $(CFLAGS) $(LIBLIST) -L $(LIB) -I $(INCLUDE) -o $(EXEC)
 
 $(BUILD)/%.o: $(SRC)/%.c | create_build_dir
-	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCLUDE)
+	$(SHH) $(CC) $(CFLAGS) -c $< -o $@ -I $(INCLUDE)
 
-.PHONY: create_build_dir
 create_build_dir:
-	if not exist $(BUILD) mkdir $(BUILD)
-	if not exist $(BUILD)\abilities mkdir $(BUILD)\abilities
-	if not exist $(BUILD)\entities mkdir $(BUILD)\entities
-	if not exist $(BUILD)\map mkdir $(BUILD)\map
+	$(SHH)$-mkdir $(BUILD)
+	$(SHH)$-mkdir $(BUILD)\abilities
+	$(SHH)$-mkdir $(BUILD)\entities
+	$(SHH)$-mkdir $(BUILD)\map
 
 release: CFLAGS += $(RELEASE_FLAGS)
 release: all
 
 clean:
-	rmdir /q /s $(BUILD)
-	del /q $(EXEC).exe
+	$(SHH)$-rm -r $(BUILD)
+	$(SHH)$-rm -f $(EXEC).exe
