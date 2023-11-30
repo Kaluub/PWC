@@ -25,10 +25,10 @@ $(BUILD)/%.o: $(SRC)/%.c | create_build_dir
 	$(SHH) $(CC) $(CFLAGS) -c $< -o $@ -I $(INCLUDE)
 
 create_build_dir:
-	$(SHH)$-mkdir $(BUILD)
-	$(SHH)$-mkdir $(BUILD)\abilities
-	$(SHH)$-mkdir $(BUILD)\entities
-	$(SHH)$-mkdir $(BUILD)\map
+	$(SHH)$-mkdir -p $(BUILD)
+	$(SHH)$-mkdir -p $(BUILD)\abilities
+	$(SHH)$-mkdir -p $(BUILD)\entities
+	$(SHH)$-mkdir -p $(BUILD)\map
 
 release: CFLAGS += $(RELEASE_FLAGS)
 release: all
