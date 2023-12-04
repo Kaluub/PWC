@@ -12,4 +12,5 @@
 
 void ActivateAbility(Player *player, Map *map, Ability *ability, AbilityType abilityType);
 void UpdateAbility(Player *player, Map *map, Ability *ability, AbilityType abilityType);
+void DrawAbility(Ability *ability, AbilityType abilityType);
 Texture2D GetAbilityIcon(GameState *gameState, AbilityType abilityType);

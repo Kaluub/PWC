@@ -6,3 +6,4 @@
 
 void ActivateMinimize(Player *player, Minimize *minimize);
 void UpdateMinimize(Player *player, Map *map, Minimize *minimize);
+void DrawMinimizeProjectiles(Minimize *minimize);

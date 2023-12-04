@@ -88,3 +88,10 @@ void UpdateMinimize(Player *player, Map *map, Minimize *minimize) {
         minimize->projectiles = NULL;
     }
 }
+
+void DrawMinimizeProjectiles(Minimize *minimize) {
+    for (int i = 0; i < minimize->projectileCount; i += 1) {
+        MinimizeProjectile projectile = minimize->projectiles[i];
+        DrawMinimizeProjectile(projectile);
+    }
+}

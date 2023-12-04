@@ -2,6 +2,9 @@
 #include "game.h"
 #include "abilities/ability.h"
 
+#include "raymath.h"
+#include "utils.h"
+
 void StartGame() {
     InitWindow(720, 480, "PWC");
     SetRandomSeed(time(NULL));
@@ -35,7 +38,7 @@ void UpdateGame(GameState* gameState) {
         gameState->map = CreateMap();
     }
 
-    UpdatePlayer(&gameState->player, &gameState->map);
+    UpdatePlayer(&gameState->player, &gameState->map, &gameState->camera);
 
     for (int i = 0; i < gameState->map.enemyCount; i += 1) {
         UpdateEnemy(&gameState->map.enemies[i], &gameState->map);
@@ -71,7 +74,7 @@ void DrawGame(GameState* gameState) {
     // Draw enemies.
     for (int i = 0; i < map.enemyCount; i += 1) {
         Enemy enemy = map.enemies[i];
-        DrawCircleV(enemy.position, enemy.radius, enemy.color);
+        DrawCircleV(enemy.position, enemy.radius * enemy.speedMultiplier, enemy.color);
     }
 
     // Draw walls.

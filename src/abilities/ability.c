@@ -3,8 +3,6 @@
 void ActivateAbility(Player *player, Map *map, Ability *ability, AbilityType abilityType) {
     // Select the correct ability activation function based on the slot's ability type.
     switch (abilityType) {
-        case NONE:
-            return;
         case NIGHT:
             ActivateNight(player, &ability->night);
             return;
@@ -17,14 +15,14 @@ void ActivateAbility(Player *player, Map *map, Ability *ability, AbilityType abi
         case MINIMIZE:
             ActivateMinimize(player, &ability->minimize);
             return;
+        default:
+            return;
     }
 }
 
 void UpdateAbility(Player *player, Map *map, Ability *ability, AbilityType abilityType) {
     // Select the correct ability update function based on the slot's ability type.
-    switch (abilityType) {
-        case NONE:
-            return;
+    switch (abilityType) {            
         case NIGHT:
             UpdateNight(player, &ability->night);
             return;
@@ -36,6 +34,19 @@ void UpdateAbility(Player *player, Map *map, Ability *ability, AbilityType abili
             return;
         case MINIMIZE:
             UpdateMinimize(player, map, &ability->minimize);
+            return;
+        default:
+            return;
+    }
+}
+
+void DrawAbility(Ability *ability, AbilityType abilityType) {
+    // Draw ability related articles.
+    switch (abilityType) {            
+        case MINIMIZE:
+            DrawMinimizeProjectiles(&ability->minimize);
+            return;
+        default:
             return;
     }
 }

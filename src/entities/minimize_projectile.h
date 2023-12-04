@@ -5,3 +5,4 @@
 #include "../abilities/definitions.h"
 
 void UpdateMinimizeProjectile(MinimizeProjectile* minimizeProjectile, Map* map);
+void DrawMinimizeProjectile(MinimizeProjectile minimizeProjectile);

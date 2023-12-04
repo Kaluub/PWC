@@ -11,6 +11,7 @@ typedef struct Player {
     Vector2 position;
     float radius;
     float speed;
+    float deathTimer;
     float inputAngle;
     int alpha;
     float speedBoost;
@@ -24,7 +25,9 @@ typedef struct Player {
     Ability abilityTwo;
     // Flags.
     int ignoreCollisions : 1;
+    int adminMode : 1;
     int isHard : 1;
+    int isDeparted : 1;
 } Player;
 
 typedef struct Enemy {
@@ -32,5 +35,8 @@ typedef struct Enemy {
     Vector2 position;
     Vector2 direction;
     float radius;
-    int speed;
+    float radiusMultiplier;
+    float speed;
+    float speedMultiplier;
+    float minimizeTime;
 } Enemy;

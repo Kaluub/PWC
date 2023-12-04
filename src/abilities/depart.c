@@ -16,10 +16,12 @@ void UpdateDepart(Player *player, Depart *depart) {
     }
     
     if (depart->duration <= 0) {
+        player->isDeparted = 0;
         return;
     }
 
     depart->duration -= GetFrameTime();
     player->speedMultiplier *= 0.5;
     player->alpha *= 0;
+    player->isDeparted = 1;
 }

@@ -1,8 +1,9 @@
 #include "minimize_projectile.h"
 #include "../map/definitions.h"
 #include "raymath.h"
+#include "raylib.h"
 
-void UpdateMinimizeProjectile(MinimizeProjectile* minimizeProjectile, struct Map *map) {
+void UpdateMinimizeProjectile(MinimizeProjectile* minimizeProjectile, Map* map) {
     minimizeProjectile->duration -= GetFrameTime();
 
     Vector2 velocity = Vector2Scale(minimizeProjectile->direction, minimizeProjectile->speed * GetFrameTime());
@@ -67,4 +68,16 @@ void UpdateMinimizeProjectile(MinimizeProjectile* minimizeProjectile, struct Map
     }
 
     minimizeProjectile->position = intendedPosition;
+
+    for (int i = 0; i < map->enemyCount; i += 1) {
+        Enemy* enemy = &map->enemies[i];
+        if (CheckCollisionCircles(minimizeProjectile->position, minimizeProjectile->radius, enemy->position, enemy->radius * enemy->radiusMultiplier)) {
+            // Enemy should be minimized.
+            enemy->minimizeTime = 2;
+        }
+    }
+}
+
+void DrawMinimizeProjectile(MinimizeProjectile minimizeProjectile) {
+    DrawCircleV(minimizeProjectile.position, minimizeProjectile.radius, (Color) {255, 0, 0, 255});
 }
