@@ -233,7 +233,12 @@ void DrawPlayer(GameState *gameState) {
     // Draw ability effects
     DrawAbility(&player.abilityOne, player.abilityOneType);
     DrawAbility(&player.abilityTwo, player.abilityTwoType);
+
+    if (!player.alpha) {
+        return;
+    }
     
+    // Draw player elements.
     DrawCircleSector(player.position, player.radius, 0, 360, player.radius * PI * gameState->camera.zoom, player.color);
     for (int i = 0; i < player.colorEffectCount; i += 1) {
         DrawCircleV(player.position, player.radius, player.colorEffects[i]);
