@@ -28,11 +28,12 @@ Map CreateMap() {
     map.wallCount = 0;
     map.tileCount = 0;
     map.enemyCount = 0;
-    AddWall(&map, (Wall) {{64, 64, 32, 96}, {0, 0, 0, 128}});
-    AddTile(&map, (Tile) {{128, 64, 32, 96}, SLOWING, {0, 0, 50, 50}});
-    AddTile(&map, (Tile) {{192, 64, 32, 96}, ACCELERATING, {50, 0, 0, 50}});
-    AddTile(&map, (Tile) {{256, 64, 32, 96}, HORIZONTAL_NULLIFICATION, {50, 0, 50, 50}});
-    AddTile(&map, (Tile) {{320, 64, 32, 96}, VERTICAL_NULLIFICATION, {50, 0, 50, 50}});
+    AddWall(&map, (Wall) {{0, 0, 128, 128}, {0, 0, 0, 50}, ENEMIES}); // Safe zone.
+    AddWall(&map, (Wall) {{256, 64, 32, 96}, {0, 0, 0, 128}, ALL});
+    AddTile(&map, (Tile) {{320, 64, 32, 96}, {0, 0, 50, 50}, SLOWING});
+    AddTile(&map, (Tile) {{448, 64, 32, 96}, {50, 0, 0, 50}, ACCELERATING});
+    AddTile(&map, (Tile) {{576, 64, 32, 96}, {50, 0, 50, 50}, HORIZONTAL_NULLIFICATION});
+    AddTile(&map, (Tile) {{704, 64, 32, 96}, {50, 0, 50, 50}, VERTICAL_NULLIFICATION});
     // AddTile(&map, (Tile) {{384, 64, 32, 96}, REVERSING, {50, 50, 50, 50}}); // Janky tile.
 
     
@@ -42,7 +43,7 @@ Map CreateMap() {
         int width = GetRandomValue(1, min(map.area.width / 32 - x / 32, 10)) * 32;
         int height = GetRandomValue(1, min(map.area.height / 32 - y / 32, 10)) * 32;
 
-        if(!AddWall(&map, (Wall) {{x, y, width, height}, {0, 0, 0, 255}})) {
+        if(!AddWall(&map, (Wall) {{x, y, width, height}, {0, 0, 0, 255}, ALL})) {
             break;
         }
     }

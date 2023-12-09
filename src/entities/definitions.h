@@ -5,6 +5,12 @@
 
 #define MAX_COLOR_EFFECTS 8
 
+typedef enum TargetType {
+    ALL,
+    ENEMIES,
+    PLAYERS,
+} TargetType;
+
 typedef struct Player {
     char* name;
     Color color;

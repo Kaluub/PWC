@@ -48,6 +48,9 @@ void UpdateEnemy(Enemy* enemy, Map* map) {
     // Wall entity collisions.
     for (int i = 0; i < map->wallCount; i++) {
         Wall wall = map->walls[i];
+        if (wall.targetType != ALL && wall.targetType != ENEMIES) {
+            continue;
+        }
 
         // X-axis collision resolution
         if (intendedPosition.x - radius < wall.area.x + wall.area.width &&

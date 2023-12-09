@@ -18,12 +18,13 @@ typedef enum TileType {
 typedef struct Wall {
     Rectangle area;
     Color color;
+    TargetType targetType;
 } Wall;
 
 typedef struct Tile {
     Rectangle area;
-    TileType tileType;
     Color color;
+    TileType tileType;
 } Tile;
 
 typedef struct Map {
