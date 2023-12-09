@@ -1,13 +1,14 @@
 #include "depart.h"
+#include "../utils.h"
 
 void ActivateDepart(Player *player, Depart *depart) {
     if (depart->data.cooldown > 0) {
         return;
     }
 
-    depart->data.cooldown = 8;
-    depart->data.totalCooldown = 8;
-    depart->duration = 3;
+    depart->data.totalCooldown = max(8 - 0.5 * depart->data.level, 0);
+    depart->data.cooldown = depart->data.totalCooldown;
+    depart->duration = 2 + 0.3 * depart->data.level;
 }
 
 void UpdateDepart(Player *player, Depart *depart) {

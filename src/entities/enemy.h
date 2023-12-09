@@ -7,3 +7,4 @@
 Enemy CreateEnemy(Map* map);
 void UpdateEnemy(Enemy* enemy, Map* map);
 void UpdateEffects(Enemy* enemy);
+void DrawEnemy(Enemy* enemy);

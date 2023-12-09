@@ -49,6 +49,15 @@ void UpdatePlayer(Player* player, Map* map, Camera2D* camera) {
         player->deathTimer = -1;
     }
 
+    if (IsKeyPressed(KEY_ONE) && player->abilityOne.data.level < 5) {
+        // Upgrade ability 1.
+        player->abilityOne.data.level += 1;
+    }
+    if (IsKeyPressed(KEY_TWO) && player->abilityTwo.data.level < 5) {
+        // Upgrade ability 2.
+        player->abilityTwo.data.level += 1;
+    }
+
     // Reset modifiers.
     player->alpha = 255;
     player->speedBoost = 0;

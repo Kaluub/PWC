@@ -93,3 +93,7 @@ void UpdateEffects(Enemy* enemy) {
         enemy->speedMultiplier *= 0.6;
     }
 }
+
+void DrawEnemy(Enemy* enemy) {
+    DrawCircleV(enemy->position, enemy->radius * enemy->radiusMultiplier, enemy->color);
+}

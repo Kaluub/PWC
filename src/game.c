@@ -73,8 +73,8 @@ void DrawGame(GameState* gameState) {
 
     // Draw enemies.
     for (int i = 0; i < map.enemyCount; i += 1) {
-        Enemy enemy = map.enemies[i];
-        DrawCircleV(enemy.position, enemy.radius * enemy.speedMultiplier, enemy.color);
+        Enemy* enemy = &map.enemies[i];
+        DrawEnemy(enemy);
     }
 
     // Draw walls.
