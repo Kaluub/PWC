@@ -24,7 +24,7 @@ Player CreatePlayer() {
     player.abilityOneType = MINIMIZE;
     player.abilityOne.data.level = 1;
 
-    memset(&player.abilityOne, 0, sizeof(Ability));
+    memset(&player.abilityTwo, 0, sizeof(Ability));
     player.abilityTwoType = DEPART;
     player.abilityTwo.data.level = 1;
     
@@ -66,10 +66,10 @@ void UpdatePlayer(Player* player, Map* map, Camera2D* camera) {
 
     // Apply abilities.
     if (player->deathTimer <= -1) {
-        if (IsKeyPressed(KEY_Z)) {
+        if (IsKeyPressed(KEY_Z) || IsKeyPressed(KEY_J)) {
             ActivateAbility(player, map, &player->abilityOne, player->abilityOneType);
         }
-        if (IsKeyPressed(KEY_X)) {
+        if (IsKeyPressed(KEY_X) || IsKeyPressed(KEY_K)) {
             ActivateAbility(player, map, &player->abilityTwo, player->abilityTwoType);
         }
     }

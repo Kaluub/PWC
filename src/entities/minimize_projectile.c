@@ -35,6 +35,9 @@ void UpdateMinimizeProjectile(MinimizeProjectile* minimizeProjectile, Map* map) 
     // Wall entity collisions.
     for (int i = 0; i < map->wallCount; i++) {
         Wall wall = map->walls[i];
+        if (wall.targetType != ALL) {
+            continue;
+        }
 
         // X-axis collision resolution
         if (intendedPosition.x - minimizeProjectile->radius < wall.area.x + wall.area.width &&

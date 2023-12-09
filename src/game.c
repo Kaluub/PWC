@@ -85,14 +85,12 @@ void DrawGame(GameState* gameState) {
 
     EndMode2D();
 
-    // Draw GUI elements.
-    DrawDebugInterface(gameState);
-
     // Draw abilities.
+    int textureY = GetScreenHeight() - 60;
     Texture2D abilityOneIcon = GetAbilityIcon(gameState, gameState->player.abilityOneType);
     Texture2D abilityTwoIcon = GetAbilityIcon(gameState, gameState->player.abilityTwoType);
-    DrawTexture(abilityOneIcon, 10, GetScreenHeight() - 60, WHITE);
-    DrawTexture(abilityTwoIcon, 70, GetScreenHeight() - 60, WHITE);
+    DrawTexture(abilityOneIcon, 10, textureY, WHITE);
+    DrawTexture(abilityTwoIcon, 70, textureY, WHITE);
 
     // Draw ability cooldowns.
     if (gameState->player.abilityOne.data.cooldown > 0) {
@@ -103,6 +101,36 @@ void DrawGame(GameState* gameState) {
         float heightRatio = gameState->player.abilityTwo.data.cooldown / gameState->player.abilityTwo.data.totalCooldown;
         DrawRectangle(70, GetScreenHeight() - 60, 50, heightRatio * 50, (Color) {0, 0, 0, 128});
     }
+
+    // Draw ability level.
+    DrawCircle(10, textureY + 50, 5, YELLOW);
+    DrawCircle(70, textureY + 50, 5, YELLOW);
+    const char* abilityOneLevelText = TextFormat("%i", gameState->player.abilityOne.data.level);
+    const char* abilityTwoLevelText = TextFormat("%i", gameState->player.abilityTwo.data.level);
+    int widthOne = MeasureText(abilityOneLevelText, 6);
+    int widthTwo = MeasureText(abilityTwoLevelText, 6);
+    DrawText(abilityOneLevelText, 10 - widthOne/2, textureY + 46, 6, BLACK);
+    DrawText(abilityTwoLevelText, 70 - widthTwo/2, textureY + 46, 6, BLACK);
+
+    // Draw area title.
+    const char* areaTitle = "Withered Wilderness";
+    int areaTitleWidth = MeasureText(areaTitle, 30);
+    int centerX = GetScreenWidth() / 2;
+    int textPositionX = centerX - areaTitleWidth / 2;
+    int textPositionY = 4;
+    Color backgroundTextColor = (Color) {65, 80, 100, 255};
+    Color textColor = (Color) {160, 190, 235, 255};
+    DrawText(areaTitle, textPositionX - 2, textPositionY - 2, 30, backgroundTextColor);
+    DrawText(areaTitle, textPositionX + 2, textPositionY - 2, 30, backgroundTextColor);
+    DrawText(areaTitle, textPositionX - 2, textPositionY + 2, 30, backgroundTextColor);
+    DrawText(areaTitle, textPositionX + 2, textPositionY + 2, 30, backgroundTextColor);
+    DrawText(areaTitle, textPositionX, textPositionY - 2, 30, backgroundTextColor);
+    DrawText(areaTitle, textPositionX, textPositionY + 2, 30, backgroundTextColor);
+    DrawText(areaTitle, textPositionX - 2, textPositionY, 30, backgroundTextColor);
+    DrawText(areaTitle, textPositionX + 2, textPositionY, 30, backgroundTextColor);
+    DrawText(areaTitle, textPositionX, textPositionY, 30, textColor);
+
+    DrawDebugInterface(gameState);
 
     EndDrawing();
 }
