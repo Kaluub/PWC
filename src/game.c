@@ -1,7 +1,7 @@
 #include <time.h>
+#include <malloc.h>
 #include "game.h"
 #include "abilities/ability.h"
-
 #include "raymath.h"
 #include "utils.h"
 
@@ -77,12 +77,6 @@ void DrawGame(GameState* gameState) {
         DrawEnemy(enemy);
     }
 
-    // Draw walls.
-    for (int i = 0; i < map.wallCount; i += 1) {
-        Wall wall = map.walls[i];
-        DrawRectangleRec(wall.area, wall.color);
-    }
-
     EndMode2D();
 
     // Draw abilities.
@@ -95,25 +89,19 @@ void DrawGame(GameState* gameState) {
     // Draw ability cooldowns.
     if (gameState->player.abilityOne.data.cooldown > 0) {
         float heightRatio = gameState->player.abilityOne.data.cooldown / gameState->player.abilityOne.data.totalCooldown;
-        DrawRectangle(10, GetScreenHeight() - 60, 50, heightRatio * 50, (Color) {0, 0, 0, 128});
+        DrawRectangle(10, textureY, 50, heightRatio * 50, (Color) {0, 0, 0, 128});
     }
     if (gameState->player.abilityTwo.data.cooldown > 0) {
         float heightRatio = gameState->player.abilityTwo.data.cooldown / gameState->player.abilityTwo.data.totalCooldown;
-        DrawRectangle(70, GetScreenHeight() - 60, 50, heightRatio * 50, (Color) {0, 0, 0, 128});
+        DrawRectangle(70, textureY, 50, heightRatio * 50, (Color) {0, 0, 0, 128});
     }
 
     // Draw ability level.
-    DrawCircle(10, textureY + 50, 5, YELLOW);
-    DrawCircle(70, textureY + 50, 5, YELLOW);
-    const char* abilityOneLevelText = TextFormat("%i", gameState->player.abilityOne.data.level);
-    const char* abilityTwoLevelText = TextFormat("%i", gameState->player.abilityTwo.data.level);
-    int widthOne = MeasureText(abilityOneLevelText, 6);
-    int widthTwo = MeasureText(abilityTwoLevelText, 6);
-    DrawText(abilityOneLevelText, 10 - widthOne/2, textureY + 46, 6, BLACK);
-    DrawText(abilityTwoLevelText, 70 - widthTwo/2, textureY + 46, 6, BLACK);
+    DrawAbilityLevelIndicator(gameState->player.abilityOne.data, (Vector2) {35, textureY + 25});
+    DrawAbilityLevelIndicator(gameState->player.abilityTwo.data, (Vector2) {95, textureY + 25});
 
     // Draw area title.
-    const char* areaTitle = "Withered Wilderness";
+    const char* areaTitle = map.name;
     int areaTitleWidth = MeasureText(areaTitle, 30);
     int centerX = GetScreenWidth() / 2;
     int textPositionX = centerX - areaTitleWidth / 2;
@@ -133,4 +121,18 @@ void DrawGame(GameState* gameState) {
     DrawDebugInterface(gameState);
 
     EndDrawing();
+}
+
+void DrawAbilityLevelIndicator(AbilityData data, Vector2 position) {
+    CirclePoint* points = GetPointsOnCircle(data.level, DEG2RAD*(25 + min(5*data.level, 65)), DEG2RAD*90, position, 32);
+    if (points == NULL) {
+        return;
+    }
+
+    for (int i = 0; i < data.level; i += 1) {
+        CirclePoint point = points[i];
+        DrawCircleV(point.position, 2, YELLOW);
+    }
+
+    free(points);
 }

@@ -35,5 +35,6 @@ typedef struct Map {
     int wallCount;
     int tileCount;
     int enemyCount;
+    char* name;
     Color color;
 } Map;

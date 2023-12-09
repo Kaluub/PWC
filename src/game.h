@@ -12,3 +12,4 @@ void RunGame();
 void GameLoop(GameState* gameState);
 void UpdateGame(GameState* gameState);
 void DrawGame(GameState* gameState);
+void DrawAbilityLevelIndicator(AbilityData data, Vector2 position);

@@ -25,6 +25,7 @@ Map CreateMap() {
     Map map;
     map.area = (Rectangle) {0, 0, 3200, 3200};
     map.color = (Color) {30, 30, 30, 255};
+    map.name = "Withered Wilderness";
     map.wallCount = 0;
     map.tileCount = 0;
     map.enemyCount = 0;
@@ -87,5 +88,11 @@ void DrawMap(GameState *gameState) {
     for (int i = 0; i < map.tileCount; i += 1) {
         Tile tile = map.tiles[i];
         DrawRectangleRec(tile.area, tile.color);
+    }
+
+    // Draw walls.
+    for (int i = 0; i < map.wallCount; i += 1) {
+        Wall wall = map.walls[i];
+        DrawRectangleRec(wall.area, wall.color);
     }
 }

@@ -10,7 +10,7 @@ Player CreatePlayer() {
     Player player;
     player.name = "Lime";
     player.color = (Color) {255, 0, 0, 255};
-    player.position = (Vector2) {32, 32};
+    player.position = (Vector2) {64, 64};
     player.radius = 13;
     player.speed = 170;
     player.deathTimer = -1;
@@ -230,7 +230,7 @@ int AddColorEffect(Player *player, Color color) {
 void DrawPlayer(GameState *gameState) {
     Player player = gameState->player;
 
-    // Draw ability impacts
+    // Draw ability effects
     DrawAbility(&player.abilityOne, player.abilityOneType);
     DrawAbility(&player.abilityTwo, player.abilityTwoType);
     

@@ -37,7 +37,7 @@ void ActivateMinimize(Player *player, Minimize *minimize) {
         DEG2RAD*(15+(minimize->data.level-1)*8),
         player->inputAngle,
         player->position,
-        projectileRadius
+        player->radius
     );
     if (points == NULL) {
         return;
