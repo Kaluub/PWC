@@ -29,6 +29,12 @@ void RunGame() {
 void GameLoop(GameState* gameState) {
     while (!WindowShouldClose()) {
         UpdateGame(gameState);
+        if (IsKeyDown(KEY_V)) {
+            // speed up time hack
+            for (int i = 0; i < 4; i += 1) {
+                UpdateGame(gameState);
+            }
+        }
         DrawGame(gameState);
     }
 }

@@ -79,10 +79,15 @@ void UpdatePlayer(Player* player, Map* map, Camera2D* camera) {
 
     float currentSpeed = player->speedMultiplier * (player->speed + player->speedBoost);
 
-    if (player->deathTimer > 0) {
-        player->deathTimer -= GetFrameTime();
+    if (player->deathTimer >= 0) {
         player->alpha *= 0.5;
         currentSpeed *= 0;
+        if (player->deathTimer > 0) {
+            player->deathTimer -= GetFrameTime();
+        }
+        if (player->deathTimer < 0) {
+            player->deathTimer = 0;
+        }
     }
 
     // Movement controls.
@@ -210,7 +215,7 @@ void UpdatePlayer(Player* player, Map* map, Camera2D* camera) {
 
 int IsInvulnerable(Player *player) {
     // Conditions for which the player is invulnerable to enemies.
-    return player->deathTimer > 0
+    return player->deathTimer >= 0
         || player->adminMode
         || player->isHard
         || player->isDeparted;
@@ -243,7 +248,7 @@ void DrawPlayer(GameState *gameState) {
     for (int i = 0; i < player.colorEffectCount; i += 1) {
         DrawCircleV(player.position, player.radius, player.colorEffects[i]);
     }
-    if (player.deathTimer > 0) {
+    if (player.deathTimer >= 0) {
         const char* deathTimer = TextFormat("%.0f", player.deathTimer);
         DrawTextEx(GetFontDefault(), deathTimer, (Vector2) {player.position.x - MeasureText(deathTimer, player.radius - 1)/2, player.position.y - player.radius / 2}, player.radius - 1, 1, RED);
     }
