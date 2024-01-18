@@ -1,11 +1,15 @@
 CC = gcc
 CFLAGS = -std=c11 -Wall -Werror
 RELEASE_FLAGS = -Wl,--subsystem,windows -O2
-LIBLIST = -lraylib -lopengl32 -lgdi32 -lwinmm
+LIBLIST = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 LIB = lib/
 INCLUDE = include/
 SRC = src
 BUILD = build
+
+ifeq ($(OS), Windows_NT)
+	LIBLIST = -lraylib -lopengl32 -lgdi32 -lwinmm
+endif
 
 SRCS := $(wildcard $(SRC)/*.c) $(wildcard $(SRC)/*/*.c)
 OBJS := $(patsubst $(SRC)/%.c, $(BUILD)/%.o, $(SRCS))
@@ -26,13 +30,14 @@ $(BUILD)/%.o: $(SRC)/%.c | create_build_dir
 
 create_build_dir:
 	$(SHH)$-mkdir -p $(BUILD)
-	$(SHH)$-mkdir -p $(BUILD)\abilities
-	$(SHH)$-mkdir -p $(BUILD)\entities
-	$(SHH)$-mkdir -p $(BUILD)\map
+	$(SHH)$-mkdir -p $(BUILD)/abilities
+	$(SHH)$-mkdir -p $(BUILD)/entities
+	$(SHH)$-mkdir -p $(BUILD)/map
 
 release: CFLAGS += $(RELEASE_FLAGS)
 release: all
 
 clean:
-	$(SHH)$-rm -r $(BUILD)
+	$(SHH)$-rm -rf $(BUILD)
 	$(SHH)$-rm -f $(EXEC).exe
+	$(SHH)$-rm -f $(EXEC)
