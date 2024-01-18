@@ -1,7 +1,7 @@
 #pragma once
 
 #include "raylib.h"
-#include "textures.h"
+#include "drawing/textures.h"
 #include "entities/definitions.h"
 #include "map/definitions.h"
 

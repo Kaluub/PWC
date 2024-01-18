@@ -1,14 +1,16 @@
 #include <time.h>
 #include <malloc.h>
+#include "config.h"
 #include "game.h"
 #include "abilities/ability.h"
+#include "drawing/text.h"
 #include "raymath.h"
 #include "utils.h"
 
 void StartGame() {
-    InitWindow(720, 480, "PWC");
+    InitWindow(DEFAULT_WIDTH, DEFAULT_HEIGHT, NAME);
     SetRandomSeed(time(NULL));
-    //SetTargetFPS(60);
+    // SetTargetFPS(60);
     RunGame();
 }
 
@@ -21,7 +23,7 @@ void RunGame() {
     gameState.camera.offset = (Vector2) {GetScreenWidth() / 2, GetScreenHeight() / 2};
     gameState.camera.rotation = 0.0f;
     gameState.camera.zoom = 1;
-    gameState.debugState = (DebugState) {0, 0};
+    gameState.debugState = (DebugState) {0};
 
     GameLoop(&gameState);
 }
@@ -30,8 +32,8 @@ void GameLoop(GameState* gameState) {
     while (!WindowShouldClose()) {
         UpdateGame(gameState);
         if (IsKeyDown(KEY_V)) {
-            // speed up time hack
-            for (int i = 0; i < 4; i += 1) {
+            // Frame skip.
+            for (int i = 0; i < FRAME_SKIP; i += 1) {
                 UpdateGame(gameState);
             }
         }
@@ -54,13 +56,22 @@ void UpdateGame(GameState* gameState) {
 
     if (IsKeyPressed(KEY_N) || IsKeyPressedRepeat(KEY_N)) {
         gameState->camera.zoom -= 0.05;
+        if (gameState->camera.zoom <= MIN_ZOOM) {
+            gameState->camera.zoom = MIN_ZOOM;
+        }
     }
+
     if (IsKeyPressed(KEY_M) || IsKeyPressedRepeat(KEY_M)) {
         gameState->camera.zoom += 0.05;
+        if (gameState->camera.zoom >= MAX_ZOOM) {
+            gameState->camera.zoom = MAX_ZOOM;
+        }
     }
+
     if (IsKeyPressed(KEY_B) || IsKeyPressedRepeat(KEY_B)) {
         gameState->camera.rotation += 5;
     }
+
     gameState->camera.target = gameState->player.position;
 }
 
@@ -68,7 +79,7 @@ void DrawGame(GameState* gameState) {
     Map map = gameState->map;
 
     BeginDrawing();
-    ClearBackground(BLACK);
+    ClearBackground(BACKGROUND_COLOR);
     BeginMode2D(gameState->camera);
 
     // Draw map.
@@ -107,22 +118,13 @@ void DrawGame(GameState* gameState) {
     DrawAbilityLevelIndicator(gameState->player.abilityTwo.data, (Vector2) {95, textureY + 25});
 
     // Draw area title.
-    const char* areaTitle = map.name;
-    int areaTitleWidth = MeasureText(areaTitle, 30);
+    int areaTitleWidth = MeasureText(map.name, 30);
     int centerX = GetScreenWidth() / 2;
-    int textPositionX = centerX - areaTitleWidth / 2;
-    int textPositionY = 4;
-    Color backgroundTextColor = (Color) {65, 80, 100, 255};
+    int textX = centerX - areaTitleWidth / 2;
+    int textY = 4;
     Color textColor = (Color) {160, 190, 235, 255};
-    DrawText(areaTitle, textPositionX - 2, textPositionY - 2, 30, backgroundTextColor);
-    DrawText(areaTitle, textPositionX + 2, textPositionY - 2, 30, backgroundTextColor);
-    DrawText(areaTitle, textPositionX - 2, textPositionY + 2, 30, backgroundTextColor);
-    DrawText(areaTitle, textPositionX + 2, textPositionY + 2, 30, backgroundTextColor);
-    DrawText(areaTitle, textPositionX, textPositionY - 2, 30, backgroundTextColor);
-    DrawText(areaTitle, textPositionX, textPositionY + 2, 30, backgroundTextColor);
-    DrawText(areaTitle, textPositionX - 2, textPositionY, 30, backgroundTextColor);
-    DrawText(areaTitle, textPositionX + 2, textPositionY, 30, backgroundTextColor);
-    DrawText(areaTitle, textPositionX, textPositionY, 30, textColor);
+    Color outlineColor = (Color) {65, 80, 100, 255};
+    DrawOutlinedText(map.name, textX, textY, 30, textColor, outlineColor);
 
     DrawDebugInterface(gameState);
 

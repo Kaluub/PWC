@@ -31,6 +31,7 @@ $(BUILD)/%.o: $(SRC)/%.c | create_build_dir
 create_build_dir:
 	$(SHH)$-mkdir -p $(BUILD)
 	$(SHH)$-mkdir -p $(BUILD)/abilities
+	$(SHH)$-mkdir -p $(BUILD)/drawing
 	$(SHH)$-mkdir -p $(BUILD)/entities
 	$(SHH)$-mkdir -p $(BUILD)/map
 

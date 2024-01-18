@@ -1,4 +1,5 @@
 #include "debug.h"
+#include "config.h"
 #include "raylib.h"
 #include <string.h>
 
@@ -53,6 +54,10 @@ void DrawDebugInterface(GameState* gameState) {
 }
 
 void DrawNextLine(const char* text, int* offset) {
-    DrawText(text, 10, 10 + *offset, 10, LIME);
-    *offset += 14;
+    int textWidth = MeasureText(text, DEBUG_TEXT_SIZE);
+    int basePosition = DEBUG_TEXT_MARGIN - DEBUG_BACKGROUND_MARGIN;
+    int backgroundPadding = 2 * DEBUG_BACKGROUND_MARGIN;
+    DrawRectangle(basePosition, basePosition + *offset, textWidth + backgroundPadding, DEBUG_TEXT_SIZE + backgroundPadding, DEBUG_BACKGROUND_COLOR);
+    DrawText(text, DEBUG_TEXT_MARGIN, DEBUG_TEXT_MARGIN + *offset, DEBUG_TEXT_SIZE, LIME);
+    *offset += DEBUG_TEXT_SIZE + DEBUG_TEXT_SPACING;
 }

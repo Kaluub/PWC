@@ -6,11 +6,14 @@ Enemy CreateEnemy(Map* map) {
     Enemy enemy;
     enemy.color = (Color) {180, 180, 180, 255};
     enemy.position = GetPointInMap(map);
-    enemy.radius = GetRandomValue(5, 30);
-    enemy.speed = GetRandomValue(20, 100 - enemy.radius);
+    enemy.radius = GetRandomValue(5, 40);
+    enemy.speed = GetRandomValue(20, 100 - 1.5 * enemy.radius);
+    if (GetRandomValue(1, 30) == 1) {
+        enemy.radius *= 3;
+    }
 
-    int directionFactor = GetRandomValue(0, 360);
-    enemy.direction = (Vector2) {cos(directionFactor), sin(directionFactor)};
+    int angle = GetRandomValue(0, 360);
+    enemy.direction = Vector2Normalize((Vector2) {cos(angle), sin(angle)});
     return enemy;
 }
 
