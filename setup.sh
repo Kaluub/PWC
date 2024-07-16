@@ -10,8 +10,10 @@ mkdir -p lib
 cd setup
 git clone https://github.com/raysan5/raylib.git
 cd raylib
-git fetch
+git pull
 git checkout 5.0
 cd src
 make PLATFORM=PLATFORM_DESKTOP
 cp libraylib.a ../../../lib/
+
+echo "Done!"

@@ -29,6 +29,12 @@ Map CreateMap() {
     map.wallCount = 0;
     map.tileCount = 0;
     map.enemyCount = 0;
+    // Border walls
+    AddWall(&map, (Wall) {{map.area.x - WALL_SIZE, map.area.y - WALL_SIZE, WALL_SIZE, map.area.height + WALL_SIZE}, {0, 0, 0, 0}, ALL}); // top left-down
+    AddWall(&map, (Wall) {{map.area.x, map.area.y - WALL_SIZE, map.area.width + WALL_SIZE, WALL_SIZE}, {0, 0, 0, 0}, ALL}); // top left-right
+    AddWall(&map, (Wall) {{map.area.x - WALL_SIZE, map.area.y + map.area.height, map.area.width + WALL_SIZE, WALL_SIZE}, {0, 0, 0, 0}, ALL}); // bottom left-right
+    AddWall(&map, (Wall) {{map.area.x + map.area.width, map.area.y, WALL_SIZE, map.area.height + WALL_SIZE}, {0, 0, 0, 0}, ALL}); // top right-down
+    // Testing walls
     AddWall(&map, (Wall) {{0, 0, 128, 128}, {0, 0, 0, 50}, ENEMIES}); // Safe zone.
     AddWall(&map, (Wall) {{256, 64, 32, 96}, {0, 0, 0, 128}, ALL});
     AddTile(&map, (Tile) {{320, 64, 32, 96}, {0, 0, 50, 50}, SLOWING});

@@ -4,6 +4,7 @@
 #include "raymath.h"
 #include "../abilities/ability.h"
 #include "../map/map.h"
+#include "../math/collisions.h"
 #include "../utils.h"
 
 Player CreatePlayer() {
@@ -35,8 +36,11 @@ void UpdatePlayer(Player* player, Map* map, Camera2D* camera) {
     Vector2 velocity = {0, 0};
 
     // Gameplay controls.
-    if (IsKeyPressed(KEY_L)) {
+    if (IsKeyPressed(KEY_U)) {
         player->ignoreCollisions = !player->ignoreCollisions;
+    }
+    if (IsKeyPressed(KEY_Y)) {
+        player->adminMode = !player->adminMode;
     }
     if (IsKeyPressed(KEY_O)) {
         player->speed -= 10;
@@ -142,60 +146,29 @@ void UpdatePlayer(Player* player, Map* map, Camera2D* camera) {
     Vector2 intendedPosition = { player->position.x + velocity.x, player->position.y + velocity.y };
 
     if (!player->ignoreCollisions) {
-        // Ensure player is in map bounds.
-        if (intendedPosition.x - player->radius < map->area.x) {
-            intendedPosition.x = map->area.x + player->radius;
-            velocity.x = intendedPosition.x - player->position.x;
-        }
-        if (intendedPosition.x + player->radius > map->area.x + map->area.width) {
-            intendedPosition.x = map->area.x + map->area.width - player->radius;
-            velocity.x = intendedPosition.x - player->position.x;
-        }
-
-        if (intendedPosition.y - player->radius < map->area.y) {
-            intendedPosition.y = map->area.y + player->radius;
-            velocity.y = intendedPosition.y - player->position.y;
-        }
-        if (intendedPosition.y + player->radius > map->area.y + map->area.height) {
-            intendedPosition.y = map->area.y + map->area.height - player->radius;
-            velocity.y = intendedPosition.y - player->position.y;
-        }
-
-        // Wall entity collisions.
+        // Wall collisions.
+        int wallsToCheck = 0;
         for (int i = 0; i < map->wallCount; i++) {
             Wall wall = map->walls[i];
             if (wall.targetType != ALL && wall.targetType != PLAYERS) {
                 continue;
             }
-
-            // X-axis collision resolution
-            if (intendedPosition.x - player->radius < wall.area.x + wall.area.width &&
-                intendedPosition.x + player->radius > wall.area.x &&
-                player->position.y - player->radius < wall.area.y + wall.area.height &&
-                player->position.y + player->radius > wall.area.y) {
-
-                if (velocity.x > 0) {
-                    velocity.x = wall.area.x - (player->position.x + player->radius);
-                } else if (velocity.x < 0) {
-                    velocity.x = (wall.area.x + wall.area.width) - (player->position.x - player->radius);
-                }
-                intendedPosition.x = player->position.x + velocity.x;
-            }
-
-            // Y-axis collision resolution
-            if (player->position.x - player->radius < wall.area.x + wall.area.width &&
-                player->position.x + player->radius > wall.area.x &&
-                intendedPosition.y - player->radius < wall.area.y + wall.area.height &&
-                intendedPosition.y + player->radius > wall.area.y) {
-
-                if (velocity.y > 0) {
-                    velocity.y = wall.area.y - (player->position.y + player->radius);
-                } else if (velocity.y < 0) {
-                    velocity.y = (wall.area.y + wall.area.height) - (player->position.y - player->radius);
-                }
-                intendedPosition.y = player->position.y + velocity.y;
-            }
+            wallsToCheck += 1;
         }
+        Rectangle* rects = (Rectangle*) MemAlloc(sizeof(Rectangle) * wallsToCheck);
+        int storedRects = 0;
+        for (int i = 0; i < map->wallCount; i++) {
+            Wall wall = map->walls[i];
+            if (wall.targetType != ALL && wall.targetType != PLAYERS) {
+                continue;
+            }
+            rects[storedRects] = wall.area;
+            storedRects += 1;
+        }
+        Vector2 mtv = GetMTVCircleRects((CircleCollider) {intendedPosition, player->radius}, rects, wallsToCheck);
+        intendedPosition = Vector2Add(intendedPosition, mtv);
+        MemFree(rects);
+        rects = NULL;
     }
 
     player->position = intendedPosition;

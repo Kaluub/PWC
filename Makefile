@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -std=c11 -Wall -Werror
-RELEASE_FLAGS = -Wl,--subsystem,windows -O2
+RELEASE_FLAGS = -O2
 LIBLIST = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 LIB = lib/
 INCLUDE = include/
@@ -11,7 +11,7 @@ ifeq ($(OS), Windows_NT)
 	LIBLIST = -lraylib -lopengl32 -lgdi32 -lwinmm
 endif
 
-SRCS := $(wildcard $(SRC)/*.c) $(wildcard $(SRC)/*/*.c)
+SRCS := $(wildcard $(SRC)/*.c) $(wildcard $(SRC)/*/*.c) $(wildcard $(SRC)/*/*/*.c)
 OBJS := $(patsubst $(SRC)/%.c, $(BUILD)/%.o, $(SRCS))
 
 EXEC = PWC
@@ -33,7 +33,9 @@ create_build_dir:
 	$(SHH)$-mkdir -p $(BUILD)/abilities
 	$(SHH)$-mkdir -p $(BUILD)/drawing
 	$(SHH)$-mkdir -p $(BUILD)/entities
+	$(SHH)$-mkdir -p $(BUILD)/entities/effects
 	$(SHH)$-mkdir -p $(BUILD)/map
+	$(SHH)$-mkdir -p $(BUILD)/math
 
 release: CFLAGS += $(RELEASE_FLAGS)
 release: all

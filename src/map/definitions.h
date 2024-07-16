@@ -6,6 +6,7 @@
 #define MAX_WALL_COUNT 64
 #define MAX_TILE_COUNT 32
 #define MAX_ENEMY_COUNT 256
+#define WALL_SIZE 128
 
 typedef enum TileType {
     SLOWING, // Decreases speed by 50%.

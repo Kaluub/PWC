@@ -1,15 +1,12 @@
 #pragma once
 
 #include "raylib.h"
+#include "target_type.h"
+#include "effects/definitions.h"
 #include "../abilities/definitions.h"
 
 #define MAX_COLOR_EFFECTS 8
-
-typedef enum TargetType {
-    ALL,
-    ENEMIES,
-    PLAYERS,
-} TargetType;
+#define MAX_EFFECTS 8
 
 typedef struct Player {
     char* name;
@@ -24,6 +21,8 @@ typedef struct Player {
     float speedMultiplier;
     Color colorEffects[MAX_COLOR_EFFECTS];
     int colorEffectCount;
+    Effect effects[MAX_EFFECTS];
+    int effectCount;
     // Abilities.
     AbilityType abilityOneType;
     Ability abilityOne;
@@ -40,6 +39,8 @@ typedef struct Enemy {
     Color color;
     Vector2 position;
     Vector2 direction;
+    Effect effects[MAX_EFFECTS];
+    int effectCount;
     float radius;
     float radiusMultiplier;
     float speed;
