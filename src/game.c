@@ -17,6 +17,7 @@ void StartGame() {
 void RunGame() {
     GameState gameState;
     gameState.textures = LoadTextures();
+    gameState.fonts = LoadFonts();
     gameState.player = CreatePlayer();
     gameState.map = CreateMap();
     gameState.camera.target = gameState.player.position;
@@ -53,6 +54,17 @@ void UpdateGame(GameState* gameState) {
     }
 
     UpdateDebugInterface(gameState);
+
+    Vector2 scrollChange = GetMouseWheelMoveV();
+    if (scrollChange.y != 0) {
+        gameState->camera.zoom += 0.05 * scrollChange.y;
+        if (gameState->camera.zoom <= MIN_ZOOM) {
+            gameState->camera.zoom = MIN_ZOOM;
+        }
+        if (gameState->camera.zoom >= MAX_ZOOM) {
+            gameState->camera.zoom = MAX_ZOOM;
+        }
+    }
 
     if (IsKeyPressed(KEY_N) || IsKeyPressedRepeat(KEY_N)) {
         gameState->camera.zoom -= 0.05;
@@ -118,13 +130,13 @@ void DrawGame(GameState* gameState) {
     DrawAbilityLevelIndicator(gameState->player.abilityTwo.data, (Vector2) {95, textureY + 25});
 
     // Draw area title.
-    int areaTitleWidth = MeasureText(map.name, 30);
+    Vector2 areaTitleSize = MeasureTextEx(gameState->fonts.tahomaBold, map.name, 48, 0);
     int centerX = GetScreenWidth() / 2;
-    int textX = centerX - areaTitleWidth / 2;
+    int textX = centerX - areaTitleSize.x / 2;
     int textY = 4;
     Color textColor = (Color) {160, 190, 235, 255};
     Color outlineColor = (Color) {65, 80, 100, 255};
-    DrawOutlinedText(map.name, textX, textY, 30, textColor, outlineColor);
+    DrawOutlinedText(gameState->fonts.tahomaBold, map.name, textX, textY, 48, textColor, outlineColor);
 
     DrawDebugInterface(gameState);
 

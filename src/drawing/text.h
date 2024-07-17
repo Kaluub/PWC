@@ -2,4 +2,4 @@
 
 #include "raylib.h"
 
-void DrawOutlinedText(const char* text, int x, int y, int size, Color textColor, Color outlineColor);
+void DrawOutlinedText(Font font, const char* text, int x, int y, int size, Color textColor, Color outlineColor);

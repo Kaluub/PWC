@@ -8,6 +8,9 @@ void UpdateDebugInterface(GameState* gameState) {
     if (IsKeyPressed(KEY_F10) || IsKeyPressedRepeat(KEY_F10)) {
         debugState->debugShown = !debugState->debugShown;
     }
+    if (IsKeyPressed(KEY_F6) || IsKeyPressedRepeat(KEY_F6)) {
+        debugState->showWallBounds = !debugState->showWallBounds;
+    }
 
     if (debugState->debugShown) {
         if (IsKeyPressed(KEY_RIGHT)) {

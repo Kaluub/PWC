@@ -97,8 +97,12 @@ void DrawMap(GameState *gameState) {
     }
 
     // Draw walls.
+    Color wallOutlineColor = {128 + 32 * sinf(GetTime() * PI), 30, 30, 255};
     for (int i = 0; i < map.wallCount; i += 1) {
         Wall wall = map.walls[i];
         DrawRectangleRec(wall.area, wall.color);
+        if (gameState->debugState.showWallBounds) {
+            DrawRectangleLinesEx(wall.area, 4, wallOutlineColor);
+        }
     }
 }
