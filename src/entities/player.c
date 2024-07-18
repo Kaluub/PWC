@@ -225,5 +225,12 @@ void DrawPlayer(GameState *gameState) {
         const char* deathTimer = TextFormat("%.0f", player.deathTimer);
         DrawTextEx(GetFontDefault(), deathTimer, (Vector2) {player.position.x - MeasureText(deathTimer, player.radius - 1)/2, player.position.y - player.radius / 2}, player.radius - 1, 1, RED);
     }
-    DrawTextEx(GetFontDefault(), player.name, (Vector2) {player.position.x - MeasureText(player.name, 10)/2, player.position.y - player.radius - 10}, 10, 1, WHITE);
+    const char* name = TextFormat(
+        "%s%s%s",
+        player.name,
+        player.ignoreCollisions ? " [C]" : "",
+        player.adminMode ? " [A]" : ""
+    );
+    Vector2 nameTextSize = MeasureTextEx(gameState->fonts.tahoma, name, 14, 1);
+    DrawTextEx(gameState->fonts.tahoma, name, (Vector2) {player.position.x - nameTextSize.x/2, player.position.y - player.radius - 14}, 14, 1, WHITE);
 }
