@@ -86,5 +86,7 @@ void UpdateEffects(Enemy* enemy) {
 }
 
 void DrawEnemy(Enemy* enemy) {
-    DrawCircleV(enemy->position, enemy->radius * enemy->radiusMultiplier, enemy->color);
+    float radius = enemy->radius * enemy->radiusMultiplier;
+    DrawCircleV(enemy->position, radius, enemy->color);
+    DrawRing(enemy->position, radius - 1, radius + 1, 0, 360, 36, BLACK);
 }

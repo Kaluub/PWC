@@ -1,4 +1,5 @@
 #include <math.h>
+#include <string.h>
 
 #include "collisions.h"
 #include "raymath.h"
@@ -28,10 +29,9 @@ Vector2 GetMTVCircleRects(CircleCollider circle, Rectangle* rects, int rectCount
         Rectangle rect = rects[i];
 
         Vector2 closestPoint = ClosestPointOnRect(rect, circle.position);
-        float distanceSquared = Vector2DistanceSqr(circle.position, closestPoint);
+        float distance = Vector2Distance(circle.position, closestPoint);
 
-        // Circle is already in the rect
-        if (IsPointInRect(rect, circle.position)) {
+        if (distance < circle.radius) {
             float leftDist = circle.position.x - rect.x + circle.radius;
             float rightDist = (rect.x + rect.width) - circle.position.x + circle.radius;
             float topDist = circle.position.y - rect.y + circle.radius;
@@ -51,16 +51,6 @@ Vector2 GetMTVCircleRects(CircleCollider circle, Rectangle* rects, int rectCount
             }
 
             Vector2 mtv = {direction.x * minDist, direction.y * minDist};
-            result.x += mtv.x;
-            result.y += mtv.y;
-        } else if (distanceSquared < circle.radius * circle.radius) {
-            float distance = sqrtf(distanceSquared);
-            Vector2 direction = {circle.position.x - closestPoint.x, circle.position.y - closestPoint.y};
-            direction = Vector2Normalize(direction);
-
-            float penetrationDepth = circle.radius - distance;
-            Vector2 mtv = {direction.x * penetrationDepth, direction.y * penetrationDepth};
-
             result.x += mtv.x;
             result.y += mtv.y;
         }
