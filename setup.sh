@@ -1,4 +1,4 @@
-# Install libraries
+# Install libraries (Ubuntu)
 echo "Installing required packages..."
 sudo apt-get install -y build-essential git
 sudo apt-get install -y libasound2-dev libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxcursor-dev libxinerama-dev

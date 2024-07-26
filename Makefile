@@ -15,7 +15,6 @@ SRCS := $(wildcard $(SRC)/*.c) $(wildcard $(SRC)/*/*.c) $(wildcard $(SRC)/*/*/*.
 OBJS := $(patsubst $(SRC)/%.c, $(BUILD)/%.o, $(SRCS))
 
 EXEC = PWC
-SHH = @ # @ = silent, empty = verbose
 
 .PHONY: all create_build_dir clean
 .DEFAULT: all
@@ -23,24 +22,24 @@ SHH = @ # @ = silent, empty = verbose
 all: $(EXEC)
 
 $(EXEC): $(OBJS)
-	$(SHH) $(CC) $(OBJS) $(CFLAGS) $(LIBLIST) -L $(LIB) -I $(INCLUDE) -o $(EXEC)
+	$(CC) $(OBJS) $(CFLAGS) $(LIBLIST) -L $(LIB) -I $(INCLUDE) -o $(EXEC)
 
 $(BUILD)/%.o: $(SRC)/%.c | create_build_dir
-	$(SHH) $(CC) $(CFLAGS) -c $< -o $@ -I $(INCLUDE)
+	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCLUDE)
 
 create_build_dir:
-	$(SHH)$-mkdir -p $(BUILD)
-	$(SHH)$-mkdir -p $(BUILD)/abilities
-	$(SHH)$-mkdir -p $(BUILD)/drawing
-	$(SHH)$-mkdir -p $(BUILD)/entities
-	$(SHH)$-mkdir -p $(BUILD)/entities/effects
-	$(SHH)$-mkdir -p $(BUILD)/map
-	$(SHH)$-mkdir -p $(BUILD)/math
+	mkdir -p $(BUILD)
+	mkdir -p $(BUILD)/abilities
+	mkdir -p $(BUILD)/drawing
+	mkdir -p $(BUILD)/entities
+	mkdir -p $(BUILD)/entities/effects
+	mkdir -p $(BUILD)/map
+	mkdir -p $(BUILD)/math
 
 release: CFLAGS += $(RELEASE_FLAGS)
 release: all
 
 clean:
-	$(SHH)$-rm -rf $(BUILD)
-	$(SHH)$-rm -f $(EXEC).exe
-	$(SHH)$-rm -f $(EXEC)
+	rm -rf $(BUILD)
+	rm -f $(EXEC).exe
+	rm -f $(EXEC)
