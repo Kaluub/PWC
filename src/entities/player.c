@@ -186,7 +186,7 @@ void UpdatePlayer(Player* player, Map* map, Camera2D* camera) {
     player->color.a = player->alpha;
 }
 
-int IsInvulnerable(Player *player) {
+int IsInvulnerable(Player* player) {
     // Conditions for which the player is invulnerable to enemies.
     return player->deathTimer >= 0
         || player->adminMode
@@ -194,7 +194,7 @@ int IsInvulnerable(Player *player) {
         || player->isDeparted;
 }
 
-int AddColorEffect(Player *player, Color color) {
+int AddColorEffect(Player* player, Color color) {
     if (player->colorEffectCount >= MAX_COLOR_EFFECTS) {
         return 0;
     }
@@ -205,7 +205,7 @@ int AddColorEffect(Player *player, Color color) {
     return 1;
 }
 
-void DrawPlayer(GameState *gameState) {
+void DrawPlayer(GameState* gameState) {
     Player player = gameState->player;
 
     // Draw ability effects

@@ -1,7 +1,7 @@
 #include "harden.h"
 #include "../entities/player.h"
 
-void ActivateHarden(Player *player, Harden *harden) {
+void ActivateHarden(Player* player, Harden* harden) {
     if (harden->data.cooldown > 0) {
         return;
     }
@@ -11,7 +11,7 @@ void ActivateHarden(Player *player, Harden *harden) {
     player->isHard = !player->isHard;
 }
 
-void UpdateHarden(Player *player, Harden *harden) {
+void UpdateHarden(Player* player, Harden* harden) {
     if (harden->data.cooldown > 0) {
         harden->data.cooldown -= GetFrameTime();
     }

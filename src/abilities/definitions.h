@@ -47,7 +47,7 @@ typedef struct Harden {
 
 typedef struct Minimize {
     AbilityData data;
-    MinimizeProjectile *projectiles;
+    MinimizeProjectile* projectiles;
     int projectileCount;
 } Minimize;
 

@@ -1,6 +1,6 @@
 #include "ability.h"
 
-void ActivateAbility(Player *player, Map *map, Ability *ability, AbilityType abilityType) {
+void ActivateAbility(Player* player, Map* map, Ability* ability, AbilityType abilityType) {
     // Select the correct ability activation function based on the slot's ability type.
     switch (abilityType) {
         case NIGHT:
@@ -20,7 +20,7 @@ void ActivateAbility(Player *player, Map *map, Ability *ability, AbilityType abi
     }
 }
 
-void UpdateAbility(Player *player, Map *map, Ability *ability, AbilityType abilityType) {
+void UpdateAbility(Player* player, Map* map, Ability* ability, AbilityType abilityType) {
     // Select the correct ability update function based on the slot's ability type.
     switch (abilityType) {            
         case NIGHT:
@@ -40,7 +40,7 @@ void UpdateAbility(Player *player, Map *map, Ability *ability, AbilityType abili
     }
 }
 
-void DrawAbility(Ability *ability, AbilityType abilityType) {
+void DrawAbility(Ability* ability, AbilityType abilityType) {
     // Draw ability related articles.
     switch (abilityType) {            
         case MINIMIZE:
@@ -51,7 +51,7 @@ void DrawAbility(Ability *ability, AbilityType abilityType) {
     }
 }
 
-Texture2D GetAbilityIcon(GameState *gameState, AbilityType abilityType) {
+Texture2D GetAbilityIcon(GameState* gameState, AbilityType abilityType) {
     switch (abilityType) {
         case NIGHT:
             return gameState->textures.night;

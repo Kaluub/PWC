@@ -4,7 +4,7 @@
 #include <string.h>
 
 void UpdateDebugInterface(GameState* gameState) {
-    DebugState *debugState = &gameState->debugState;
+    DebugState* debugState = &gameState->debugState;
     if (IsKeyPressed(KEY_F10) || IsKeyPressedRepeat(KEY_F10)) {
         debugState->debugShown = !debugState->debugShown;
     }
@@ -33,7 +33,7 @@ void UpdateDebugInterface(GameState* gameState) {
 }
 
 void DrawDebugInterface(GameState* gameState) {
-    DebugState *debugState = &gameState->debugState;
+    DebugState* debugState = &gameState->debugState;
     if (!debugState->debugShown) {
         return;
     }

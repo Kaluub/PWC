@@ -7,7 +7,7 @@ Vector2 GetPointInMap(Map* map) {
 }
 
 CirclePoint* GetPointsOnCircle(int count, float arcLength, float centerAngle, Vector2 position, float radius) {
-    CirclePoint *points = (CirclePoint*) calloc(count, sizeof(CirclePoint));
+    CirclePoint* points = (CirclePoint*) calloc(count, sizeof(CirclePoint));
     if (points == NULL) {
         return NULL;
     }

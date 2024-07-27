@@ -8,6 +8,9 @@
 #include "utils.h"
 
 void StartGame() {
+    #if defined(PLATFORM_WEB)
+    TraceLog(LOG_INFO, "Web version!");
+    #endif
     InitWindow(DEFAULT_WIDTH, DEFAULT_HEIGHT, NAME);
     SetRandomSeed(time(NULL));
     // SetTargetFPS(60);
@@ -26,20 +29,35 @@ void RunGame() {
     gameState.camera.zoom = 1;
     gameState.debugState = (DebugState) {0};
 
+    #if defined(PLATFORM_WEB)
+    #include <emscripten/emscripten.h>
+    emscripten_set_main_loop_arg(EmscriptenTick, &gameState, 0, 1);
+    #else
     GameLoop(&gameState);
+    #endif
 }
 
 void GameLoop(GameState* gameState) {
     while (!WindowShouldClose()) {
-        UpdateGame(gameState);
-        if (IsKeyDown(KEY_V)) {
-            // Frame skip.
-            for (int i = 0; i < FRAME_SKIP; i += 1) {
-                UpdateGame(gameState);
-            }
-        }
-        DrawGame(gameState);
+        GameTick(gameState);
     }
+}
+
+#if defined(PLATFORM_WEB)
+void EmscriptenTick(void* gameState) {
+    GameTick((GameState*) gameState);
+}
+#endif
+
+void GameTick(GameState* gameState) {
+    UpdateGame(gameState);
+    if (IsKeyDown(KEY_V)) {
+        // Frame skip.
+        for (int i = 0; i < FRAME_SKIP; i += 1) {
+            UpdateGame(gameState);
+        }
+    }
+    DrawGame(gameState);
 }
 
 void UpdateGame(GameState* gameState) {

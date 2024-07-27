@@ -1,6 +1,6 @@
 #include "night.h"
 
-void ActivateNight(Player *player, Night *night) {
+void ActivateNight(Player* player, Night* night) {
     if (night->data.cooldown > 0) {
         return;
     }
@@ -11,7 +11,7 @@ void ActivateNight(Player *player, Night *night) {
     night->nightSpeed = 100;
 }
 
-void UpdateNight(Player *player, Night *night) {
+void UpdateNight(Player* player, Night* night) {
     if (night->data.cooldown > 0) {
         night->data.cooldown -= GetFrameTime();
     }

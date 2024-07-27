@@ -5,7 +5,7 @@
 #include <math.h>
 #include <malloc.h>
 
-void ActivateMinimize(Player *player, Minimize *minimize) {
+void ActivateMinimize(Player* player, Minimize* minimize) {
     if (minimize->data.cooldown > 0) {
         return;
     }
@@ -62,7 +62,7 @@ void ActivateMinimize(Player *player, Minimize *minimize) {
     points = NULL;
 }
 
-void UpdateMinimize(Player *player, Map *map, Minimize *minimize) {
+void UpdateMinimize(Player* player, Map* map, Minimize* minimize) {
     if (minimize->data.cooldown > 0) {
         minimize->data.cooldown -= GetFrameTime();
     }
@@ -70,7 +70,7 @@ void UpdateMinimize(Player *player, Map *map, Minimize *minimize) {
     // If projectiles exist, update them
     if (minimize->projectiles != NULL) {
         for (int i = 0; i < minimize->projectileCount; i += 1) {
-            MinimizeProjectile *projectile = &minimize->projectiles[i];
+            MinimizeProjectile* projectile = &minimize->projectiles[i];
             UpdateMinimizeProjectile(projectile, map);
             if (projectile->duration <= 0) {
                 // Remove current projectile.
@@ -89,7 +89,7 @@ void UpdateMinimize(Player *player, Map *map, Minimize *minimize) {
     }
 }
 
-void DrawMinimizeProjectiles(Minimize *minimize) {
+void DrawMinimizeProjectiles(Minimize* minimize) {
     for (int i = 0; i < minimize->projectileCount; i += 1) {
         MinimizeProjectile projectile = minimize->projectiles[i];
         DrawMinimizeProjectile(projectile);

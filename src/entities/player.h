@@ -7,6 +7,6 @@
 
 Player CreatePlayer();
 void UpdatePlayer(Player* player, Map* map, Camera2D* camera);
-int IsInvulnerable(Player *player);
+int IsInvulnerable(Player* player);
 int AddColorEffect(Player* player, Color color);
-void DrawPlayer(GameState *gameState);
+void DrawPlayer(GameState* gameState);

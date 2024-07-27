@@ -1,7 +1,7 @@
 #include "depart.h"
 #include "../utils.h"
 
-void ActivateDepart(Player *player, Depart *depart) {
+void ActivateDepart(Player* player, Depart* depart) {
     if (depart->data.cooldown > 0) {
         return;
     }
@@ -11,7 +11,7 @@ void ActivateDepart(Player *player, Depart *depart) {
     depart->duration = 2 + 0.3 * depart->data.level;
 }
 
-void UpdateDepart(Player *player, Depart *depart) {
+void UpdateDepart(Player* player, Depart* depart) {
     if (depart->data.cooldown > 0) {
         depart->data.cooldown -= GetFrameTime();
     }
