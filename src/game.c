@@ -75,7 +75,12 @@ void UpdateGame(GameState* gameState) {
 
     Vector2 scrollChange = GetMouseWheelMoveV();
     if (scrollChange.y != 0) {
-        gameState->camera.zoom += 0.05 * scrollChange.y;
+        float zoomChange = 0.05 * scrollChange.y;
+        if (fabs(scrollChange.y) > 10) {
+            // Fix for web version.
+            zoomChange = 0.05 * (scrollChange.y > 0 ? -1 : 1);
+        }
+        gameState->camera.zoom += zoomChange;
         if (gameState->camera.zoom <= MIN_ZOOM) {
             gameState->camera.zoom = MIN_ZOOM;
         }

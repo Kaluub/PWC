@@ -46,7 +46,7 @@ release: all
 web: CC = emcc
 web: EXEC = web/PWC.html
 web: CFLAGS += -DPLATFORM_WEB
-web: RAYLIB = -lraylibweb -s USE_GLFW=3 --shell-file setup/raylib/src/minshell.html --preload-file assets
+web: RAYLIB = -lraylibweb -s USE_GLFW=3 --shell-file shell.html --preload-file assets -s ERROR_ON_UNDEFINED_SYMBOLS=0
 web: create_web_dist_dir
 web: all
 

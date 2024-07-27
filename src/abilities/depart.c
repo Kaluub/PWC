@@ -22,7 +22,7 @@ void UpdateDepart(Player* player, Depart* depart) {
     }
 
     depart->duration -= GetFrameTime();
-    player->speedMultiplier *= 0.5;
+    player->speedBoost = (270 + 15 * depart->data.level) - player->speed;
     player->alpha *= 0;
     player->isDeparted = 1;
 }

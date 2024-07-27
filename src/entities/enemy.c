@@ -30,6 +30,10 @@ Enemy CreateEnemy(Map* map) {
 
     int angle = GetRandomValue(0, 360);
     enemy.direction = Vector2Normalize((Vector2) {cos(angle), sin(angle)});
+    enemy.speedMultiplier = 1;
+    enemy.radiusMultiplier = 1;
+    enemy.effectCount = 0;
+    enemy.minimizeTime = 0;
     return enemy;
 }
 

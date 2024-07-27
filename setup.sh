@@ -11,24 +11,17 @@ mkdir -p lib
 cd setup
 git clone https://github.com/raysan5/raylib.git
 cd raylib
-git pull
-git checkout 5.0
+git fetch
+git checkout efce4d69ce913bca42289184b0bffe4339c0193f
 cd src
+make clean
 make PLATFORM=PLATFORM_DESKTOP
 cp libraylib.a ../../../lib/
 make clean
 
 # Compile raylib for web
-emcc -c rcore.c -O2 -Wall -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
-emcc -c rshapes.c -O2 -Wall -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
-emcc -c rtextures.c -O2 -Wall -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
-emcc -c rtext.c -O2 -Wall -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
-emcc -c rmodels.c -O2 -Wall -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
-emcc -c utils.c -O2 -Wall -DPLATFORM_WEB
-emcc -c raudio.c -O2 -Wall -DPLATFORM_WEB
-emar rcs libraylibweb.a rcore.o rshapes.o rtextures.o rtext.o rmodels.o utils.o raudio.o
-cp libraylibweb.a ../../../lib/
-rm libraylibweb.a
+make PLATFORM=PLATFORM_WEB
+cp libraylib.a ../../../lib/libraylibweb.a
 make clean
 
 echo "Done!"
