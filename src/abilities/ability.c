@@ -15,6 +15,9 @@ void ActivateAbility(Player* player, Map* map, Ability* ability, AbilityType abi
         case MINIMIZE:
             ActivateMinimize(player, &ability->minimize);
             return;
+        case FLOW:
+            ActivateFlow(player, &ability->flow);
+            return;
         default:
             return;
     }
@@ -34,6 +37,9 @@ void UpdateAbility(Player* player, Map* map, Ability* ability, AbilityType abili
             return;
         case MINIMIZE:
             UpdateMinimize(player, map, &ability->minimize);
+            return;
+        case FLOW:
+            UpdateFlow(player, &ability->flow);
             return;
         default:
             return;
@@ -61,6 +67,8 @@ Texture2D GetAbilityIcon(GameState* gameState, AbilityType abilityType) {
             return gameState->textures.harden;
         case MINIMIZE:
             return gameState->textures.minimize;
+        case FLOW:
+            return gameState->textures.flow;
         case NONE:
         default:
             return gameState->textures.defaultAbility;

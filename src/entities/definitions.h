@@ -33,6 +33,7 @@ typedef struct Player {
     int adminMode : 1;
     int isHard : 1;
     int isDeparted : 1;
+    int hasFlow: 1;
 } Player;
 
 typedef struct Enemy {

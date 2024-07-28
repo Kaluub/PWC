@@ -9,6 +9,7 @@ typedef enum AbilityType {
     DEPART,
     HARDEN,
     MINIMIZE,
+    FLOW,
 } AbilityType;
 
 // Common ability fields.
@@ -51,6 +52,10 @@ typedef struct Minimize {
     int projectileCount;
 } Minimize;
 
+typedef struct Flow {
+    AbilityData data;
+} Flow;
+
 // Ability union to allow for any abilities to use the same slot.
 typedef union Ability {
     AbilityData data; // Allows us to have the AbilityData always visible from <Ability>.data
@@ -58,4 +63,5 @@ typedef union Ability {
     Depart depart;
     Harden harden;
     Minimize minimize;
+    Flow flow;
 } Ability;

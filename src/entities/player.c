@@ -20,13 +20,14 @@ Player CreatePlayer() {
     player.ignoreCollisions = 0;
     player.adminMode = 0;
     player.isHard = 0;
+    player.hasFlow = 0;
 
     memset(&player.abilityOne, 0, sizeof(Ability));
-    player.abilityOneType = MINIMIZE;
+    player.abilityOneType = FLOW;
     player.abilityOne.data.level = 1;
 
     memset(&player.abilityTwo, 0, sizeof(Ability));
-    player.abilityTwoType = DEPART;
+    player.abilityTwoType = HARDEN;
     player.abilityTwo.data.level = 1;
     
     return player;
@@ -179,6 +180,7 @@ void UpdatePlayer(Player* player, Map* map, Camera2D* camera) {
             if (CheckCollisionCircles(player->position, player->radius, enemy.position, enemy.radius * enemy.radiusMultiplier)) {
                 // Player should be downed.
                 player->deathTimer = 60;
+                player->hasFlow = 0;
             }
         }
     }
@@ -223,7 +225,8 @@ void DrawPlayer(GameState* gameState) {
     }
     if (player.deathTimer >= 0) {
         const char* deathTimer = TextFormat("%.0f", player.deathTimer);
-        DrawTextEx(GetFontDefault(), deathTimer, (Vector2) {player.position.x - MeasureText(deathTimer, player.radius - 1)/2, player.position.y - player.radius / 2}, player.radius - 1, 1, RED);
+        Vector2 deathTimerSize = MeasureTextEx(gameState->fonts.tahoma, deathTimer, 18, 1);
+        DrawTextEx(gameState->fonts.tahoma, deathTimer, (Vector2) {player.position.x - deathTimerSize.x/2, player.position.y - deathTimerSize.y/2}, 18, 1, RED);
     }
     const char* name = TextFormat(
         "%s%s%s",
@@ -231,6 +234,6 @@ void DrawPlayer(GameState* gameState) {
         player.ignoreCollisions ? " [C]" : "",
         player.adminMode ? " [A]" : ""
     );
-    Vector2 nameTextSize = MeasureTextEx(gameState->fonts.tahoma, name, 14, 1);
-    DrawTextEx(gameState->fonts.tahoma, name, (Vector2) {player.position.x - nameTextSize.x/2, player.position.y - player.radius - 14}, 14, 1, WHITE);
+    Vector2 nameTextSize = MeasureTextEx(gameState->fonts.tahoma, name, 14, 0);
+    DrawTextEx(gameState->fonts.tahoma, name, (Vector2) {player.position.x - nameTextSize.x/2, player.position.y - player.radius - 14}, 14, 0, WHITE);
 }

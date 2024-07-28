@@ -6,9 +6,13 @@ void ActivateHarden(Player* player, Harden* harden) {
         return;
     }
 
-    harden->data.totalCooldown = 1.5 - harden->data.level * 0.25;
-    harden->data.cooldown = harden->data.totalCooldown;
     player->isHard = !player->isHard;
+    player->hasFlow = 0;
+    
+    if (!player->isHard) {
+        harden->data.totalCooldown = 1.5 - harden->data.level * 0.25;
+        harden->data.cooldown = harden->data.totalCooldown;
+    }
 }
 
 void UpdateHarden(Player* player, Harden* harden) {

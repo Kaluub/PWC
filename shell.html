@@ -10,8 +10,18 @@
     <meta name="viewport" content="width=device-width">
 
     <style>
-        body { margin: 0px; }
-        canvas.emscripten { border: 0px none; background-color: black; }
+        body {
+            margin: 0px;
+            background-color: #222222;
+        }
+        canvas.emscripten {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 0px none;
+            background-color: black;
+        }
     </style>
     </head>
     <body>
@@ -22,19 +32,12 @@
             onkeydown=event.preventDefault()
             tabindex=-1>
         </canvas>
-        <p id="output"></p>
         <script>
             var Module = {
                 print: (function() {
-                    var element = document.getElementById('output');
-                    if (element) element.value = ''; // clear browser cache
                     return function(text) {
                         if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
                         console.log(text);
-                        if (element) {
-                          element.value += text + "\n";
-                          element.scrollTop = element.scrollHeight; // focus on bottom
-                        }
                     };
                 })(),
                 canvas: (function() {

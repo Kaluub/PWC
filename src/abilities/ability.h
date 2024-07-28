@@ -9,6 +9,7 @@
 #include "depart.h"
 #include "harden.h"
 #include "minimize.h"
+#include "flow.h"
 
 void ActivateAbility(Player* player, Map* map, Ability* ability, AbilityType abilityType);
 void UpdateAbility(Player* player, Map* map, Ability* ability, AbilityType abilityType);

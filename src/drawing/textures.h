@@ -8,6 +8,7 @@ typedef struct Textures {
     Texture2D depart;
     Texture2D harden;
     Texture2D minimize;
+    Texture2D flow;
     Texture2D defaultAbility;
 } Textures;
 
