@@ -20,4 +20,5 @@ typedef struct GameState {
     Map map;
     Camera2D camera;
     DebugState debugState;
+    float zoom;
 } GameState;

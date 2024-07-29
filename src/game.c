@@ -8,10 +8,10 @@
 #include "utils.h"
 
 void StartGame() {
-    #if defined(PLATFORM_WEB)
-    TraceLog(LOG_INFO, "Web version!");
-    #endif
     InitWindow(DEFAULT_WIDTH, DEFAULT_HEIGHT, NAME);
+    #ifdef PLATFORM_DESKTOP
+    SetWindowState(FLAG_WINDOW_RESIZABLE);
+    #endif
     SetRandomSeed(time(NULL));
     // SetTargetFPS(60);
     RunGame();
@@ -28,6 +28,7 @@ void RunGame() {
     gameState.camera.rotation = 0.0f;
     gameState.camera.zoom = 1;
     gameState.debugState = (DebugState) {0};
+    gameState.zoom = 1;
 
     #if defined(PLATFORM_WEB)
     #include <emscripten/emscripten.h>
@@ -80,26 +81,26 @@ void UpdateGame(GameState* gameState) {
             // Fix for web version.
             zoomChange = 0.05 * (scrollChange.y > 0 ? -1 : 1);
         }
-        gameState->camera.zoom += zoomChange;
-        if (gameState->camera.zoom <= MIN_ZOOM) {
-            gameState->camera.zoom = MIN_ZOOM;
+        gameState->zoom += zoomChange;
+        if (gameState->zoom <= MIN_ZOOM) {
+            gameState->zoom = MIN_ZOOM;
         }
-        if (gameState->camera.zoom >= MAX_ZOOM) {
-            gameState->camera.zoom = MAX_ZOOM;
+        if (gameState->zoom >= MAX_ZOOM) {
+            gameState->zoom = MAX_ZOOM;
         }
     }
 
     if (IsKeyPressed(KEY_N) || IsKeyPressedRepeat(KEY_N)) {
-        gameState->camera.zoom -= 0.05;
-        if (gameState->camera.zoom <= MIN_ZOOM) {
-            gameState->camera.zoom = MIN_ZOOM;
+        gameState->zoom -= 0.05;
+        if (gameState->zoom <= MIN_ZOOM) {
+            gameState->zoom = MIN_ZOOM;
         }
     }
 
     if (IsKeyPressed(KEY_M) || IsKeyPressedRepeat(KEY_M)) {
-        gameState->camera.zoom += 0.05;
-        if (gameState->camera.zoom >= MAX_ZOOM) {
-            gameState->camera.zoom = MAX_ZOOM;
+        gameState->zoom += 0.05;
+        if (gameState->zoom >= MAX_ZOOM) {
+            gameState->zoom = MAX_ZOOM;
         }
     }
 
@@ -108,6 +109,11 @@ void UpdateGame(GameState* gameState) {
     }
 
     gameState->camera.target = gameState->player.position;
+    gameState->camera.offset = (Vector2) {GetScreenWidth() / 2, GetScreenHeight() / 2};
+    gameState->camera.zoom = max(
+        gameState->zoom * GetScreenWidth() / DEFAULT_WIDTH,
+        gameState->zoom * GetScreenHeight() / DEFAULT_HEIGHT
+    );
 }
 
 void DrawGame(GameState* gameState) {

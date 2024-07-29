@@ -17,8 +17,11 @@ OBJS := $(patsubst $(SRC)/%.c, $(BUILD)/%.o, $(SRCS))
 
 EXEC = PWC
 
-.PHONY: all create_build_dir create_web_dist_dir clean
-.DEFAULT: all
+.PHONY: native all create_build_dir create_web_dist_dir clean
+.DEFAULT: native
+
+native: CFLAGS += -DPLATFORM_DESKTOP
+native:	all
 
 all: $(EXEC)
 
@@ -41,7 +44,7 @@ create_web_dist_dir:
 	mkdir -p web
 
 release: CFLAGS += $(RELEASE_FLAGS)
-release: all
+release: native
 
 web: CC = emcc
 web: EXEC = web/PWC.html
