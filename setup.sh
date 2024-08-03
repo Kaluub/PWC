@@ -2,7 +2,8 @@
 echo "Installing required packages..."
 sudo apt-get install -y build-essential git libasound2-dev libx11-dev \
     libxrandr-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev \
-    libxcursor-dev libxinerama-dev emscripten
+    libxcursor-dev libxinerama-dev libwayland-dev libxkbcommon-dev \
+    emscripten
 
 # Setup raylib library file
 echo "Installing raylib library..."
@@ -15,6 +16,8 @@ git fetch
 git checkout efce4d69ce913bca42289184b0bffe4339c0193f
 cd src
 make clean
+
+# Compile raylib for desktop
 make PLATFORM=PLATFORM_DESKTOP
 cp libraylib.a ../../../lib/
 make clean
