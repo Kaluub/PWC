@@ -54,6 +54,20 @@ void DrawDebugInterface(GameState* gameState) {
     DrawNextLine("Camera stats", &leftVerticalOffset);
     DrawNextLine(TextFormat("  Zoom level: %.2f", gameState->camera.zoom), &leftVerticalOffset);
     DrawNextLine(TextFormat("  Rotation: %.2f", gameState->camera.rotation), &leftVerticalOffset);
+
+    DrawAbilityDebugState(&gameState->player.abilityOne, gameState->player.abilityOneType, "Ability 1", &leftVerticalOffset);
+    DrawAbilityDebugState(&gameState->player.abilityTwo, gameState->player.abilityTwoType, "Ability 2", &leftVerticalOffset);
+}
+
+void DrawAbilityDebugState(Ability* ability, AbilityType abilityType, const char* sectionHeader, int* offset) {
+    DrawNextLine(sectionHeader, offset);
+    DrawNextLine(TextFormat("  Type: %d", abilityType), offset);
+    DrawNextLine(TextFormat("  Level: %d", ability->data.level), offset);
+    DrawNextLine(TextFormat("  Cooldown: %.4f/%.4f", ability->data.cooldown, ability->data.totalCooldown), offset);
+
+    if (abilityType == MINIMIZE) {
+        DrawNextLine(TextFormat("  Projectiles: %d (addr: %x)", ability->minimize.projectileCount, ability->minimize.projectiles), offset);
+    }
 }
 
 void DrawNextLine(const char* text, int* offset) {

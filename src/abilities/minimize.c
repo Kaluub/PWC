@@ -11,20 +11,12 @@ void ActivateMinimize(Player* player, Minimize* minimize) {
     }
 
     int numberOfProjectiles = minimize->data.level + 1;
-    MinimizeProjectile* projectiles = (MinimizeProjectile*) calloc(numberOfProjectiles + minimize->projectileCount, sizeof(MinimizeProjectile));
-    if (projectiles == NULL) {
+    minimize->projectiles = realloc(minimize->projectiles, sizeof(MinimizeProjectile) * (minimize->projectileCount + numberOfProjectiles));
+    if (minimize->projectiles == NULL) {
         // Could not create space for new projectiles.
         TraceLog(LOG_WARNING, "Could not make space for MinimizeProjectiles (ActivateMinimize)");
         return;
     }
-    if (minimize->projectiles != NULL) {
-        // Copy old projectiles over.
-        for (int i = 0; i < minimize->projectileCount; i += 1) {
-            projectiles[i] = minimize->projectiles[i];
-        }
-        free(minimize->projectiles);
-    }
-    minimize->projectiles = projectiles;
 
     minimize->data.totalCooldown = 1;
     minimize->data.cooldown = 1;
@@ -53,7 +45,7 @@ void ActivateMinimize(Player* player, Minimize* minimize) {
             projectileSpeed,
             2.5
         };
-        projectiles[minimize->projectileCount] = projectile;
+        minimize->projectiles[minimize->projectileCount] = projectile;
         minimize->projectileCount += 1;
     }
 
