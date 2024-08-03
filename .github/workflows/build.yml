@@ -15,8 +15,10 @@ jobs:
       run: ./setup.sh
     - name: Build project
       run: make
+    - name: Bundle project
+      run: ./bundle.sh
     - uses: actions/upload-artifact@v4.1.0
       with:
         name: PWC
-        path: PWC
+        path: release/PWC
 
