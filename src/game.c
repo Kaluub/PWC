@@ -8,10 +8,10 @@
 #include "utils.h"
 
 void StartGame() {
-    InitWindow(DEFAULT_WIDTH, DEFAULT_HEIGHT, NAME);
     #ifdef PLATFORM_DESKTOP
-    SetWindowState(FLAG_WINDOW_RESIZABLE);
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     #endif
+    InitWindow(DEFAULT_WIDTH, DEFAULT_HEIGHT, NAME);
     SetRandomSeed(time(NULL));
     // SetTargetFPS(60);
     RunGame();
