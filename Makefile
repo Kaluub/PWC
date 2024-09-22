@@ -1,6 +1,7 @@
 CC = gcc
 CFLAGS = -std=c11 -Wall -Werror
 RELEASE_FLAGS = -O2
+DEBUG_FLAGS = -g
 RAYLIB = -lraylib
 LIBLIST = -lGL -lm -lpthread -ldl -lrt -lX11
 LIB = lib/
@@ -17,11 +18,14 @@ OBJS := $(patsubst $(SRC)/%.c, $(BUILD)/%.o, $(SRCS))
 
 EXEC = PWC
 
-.PHONY: native all create_build_dir create_web_dist_dir clean
+.PHONY: native debug all create_build_dir create_web_dist_dir clean
 .DEFAULT: native
 
 native: CFLAGS += -DPLATFORM_DESKTOP
 native:	all
+
+debug: CFLAGS += -DPLATFORM_DESKTOP $(DEBUG_FLAGS)
+debug: all
 
 all: $(EXEC)
 
