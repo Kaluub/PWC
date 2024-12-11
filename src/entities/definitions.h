@@ -40,6 +40,8 @@ typedef struct Enemy {
     Color color;
     Vector2 position;
     Vector2 direction;
+    Texture2D texture;
+    float textureRadius;
     Effect effects[MAX_EFFECTS];
     int effectCount;
     float radius;

@@ -34,6 +34,8 @@ Enemy CreateEnemy(Map* map) {
     enemy.radiusMultiplier = 1;
     enemy.effectCount = 0;
     enemy.minimizeTime = 0;
+    enemy.texture.id = 0;
+    enemy.textureRadius = 0;
     return enemy;
 }
 
@@ -91,6 +93,18 @@ void UpdateEffects(Enemy* enemy) {
 
 void DrawEnemy(Enemy* enemy) {
     float radius = enemy->radius * enemy->radiusMultiplier;
-    DrawCircleV(enemy->position, radius, enemy->color);
-    DrawRing(enemy->position, radius - 1, radius + 1, 0, 360, 36, BLACK);
+    if (enemy->texture.id == 0 || radius != enemy->textureRadius) {
+        TraceLog(LOG_INFO, TextFormat("Loading new enemy texture: old id %d; radius diff %f/%f", enemy->texture.id, radius, enemy->textureRadius));
+        if (enemy->texture.id != 0) {
+            UnloadTexture(enemy->texture);
+        }
+        Image newImage = GenImageColor(radius + 2, radius + 2, (Color) {0, 0, 0, 0});
+        ImageDrawCircle(&newImage, radius + 1, radius + 1, radius, enemy->color);
+        enemy->texture = LoadTextureFromImage(newImage);
+        enemy->textureRadius = radius;
+        UnloadImage(newImage);
+    }
+    DrawTextureV(enemy->texture, enemy->position, WHITE);
+    // DrawCircleV(enemy->position, radius, enemy->color);
+    // DrawRing(enemy->position, radius - 1, radius + 1, 0, 360, 36, BLACK);
 }
